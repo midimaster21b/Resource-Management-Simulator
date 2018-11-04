@@ -33,7 +33,7 @@ An additional requirement is that your program must graphically display output.
 - this is a **simulation** -- you may use any language on any platform
 - you may modify the format of the input files as desired
 - be sure to incorporate informative/diagnostic output into your program
-- it is recommended that you create a multi-file solution.  Most sophisticated programs consist of multiple files (usually written by different developers).  They are built (compiled) and work together to implement a solution.
+- it is recommended that you create a **multi-file** solution.  Most sophisticated programs consist of multiple files (usually written by different developers).  They are built (compiled) and work together to implement a solution.
 
   + recall the Model-View-Controller (MVC) paradigm, or the Model-View-Presenter (MVP) pattern.  The suggested approach is to completely de-couple your internal representation and "engine" from the code that implements the graphical display.
   + this would be a good opportunity to practice using build tools such as make or ant, or professional environments such as Visual Studio, Eclipse, or PyQt.
@@ -41,9 +41,9 @@ An additional requirement is that your program must graphically display output.
 ## Possible Enhancements
 
 You must demonstrate the correct execution of your program on the posted sample input files.  However, you may choose to create an additional, enhanced version of your resource manager.
-- create a deadlock avoidance resource manager
+- create a **deadlock avoidance** resource manager
   + add a priori knowledge regarding resource usage to the initialization phase
   + add claim edges to your resource allocation graph
   + implement a deadlock avoidance protocol as described in class
-- implement  a detect-and-recover policy
+- implement a **detect-and-recover** policy
   + develop a protocol for recovering from detected deadlocks (as described in class)

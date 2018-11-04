@@ -1,5 +1,4 @@
-# CS 452 Program 3
-# Resource Manager
+# CS 452 Program 3: Resource Manager
 
 ## Overview
 The purpose of this programming assignment is to reinforce your understanding of the role of the operating system as a resource manager.  To do this, you will implement a simulation that tracks system state and utilizes a deadlock detection protocol.

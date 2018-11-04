@@ -6,14 +6,14 @@ import * as serviceWorker from './serviceWorker';
 
 class Resource extends React.Component {
     render() {
-        return <p>Resource {this.props.name}</p>;
+        return <div>Resource {this.props.name}</div>;
     }
 }
 
 function ResourceList(props) {
     const resources = props.resources;
     const resourceListItems = resources.map((resource) =>
-                                           <li key={resource.props.id}>{resource.props.name}</li>
+                                            <li key={resource.props.id}><Resource id={resource.props.id} name={resource.props.name} /></li>
                                           );
     return (
             <ul>{resourceListItems}</ul>
@@ -21,7 +21,6 @@ function ResourceList(props) {
 }
 
 class Process extends React.Component {
-
     componentDidMount() {
     }
 
@@ -29,14 +28,14 @@ class Process extends React.Component {
     }
 
     render() {
-        return <p>Process {this.props.name}</p>;
+        return <div>Process {this.props.name}</div>;
     }
 }
 
 function ProcessList(props) {
     const processes = props.processes;
     const processListItems = processes.map((process) =>
-                                           <li key={process.props.id}>{process.props.name}</li>
+                                           <li key={process.props.id}><Process id={process.props.id} name={process.props.name} /></li>
                                           );
     return (
             <ul>{processListItems}</ul>

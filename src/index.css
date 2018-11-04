@@ -13,6 +13,10 @@ code {
     monospace;
 }
 
+.resource-manager-table {
+    border: 1px solid black;
+}
+
 #graph-space {
     width: 600px;
     height: 400px;

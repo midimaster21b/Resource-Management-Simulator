@@ -42,6 +42,43 @@ function ProcessList(props) {
     );
 }
 
+function ProcessTableRow(props) {
+
+}
+
+function ResourceManagementTable(props) {
+    const processes = props.processes;
+    const resources = props.resources;
+
+    // Blank cell for first space in table
+    const tableHeaderRow = resources.map((resource) =>
+                                         <th key={resource.props.id}><Resource id={resource.props.id} name={resource.props.name} /></th>
+                                        );
+
+    // Fill in the table data for the processes
+    const tableBody = processes.map((process) =>
+                                    {
+                                        let rowData = [];
+
+                                        rowData.push(<td><Process id={process.props.id} name={process.props.name} /></td>);
+
+                                        for(let i=0; i<resources.length; i++) {
+                                            rowData.push(<td>1</td>);
+                                        }
+
+                                        return <tr key={process.props.id}>{rowData}</tr>;
+                                    });
+
+    return (
+            <table className="resource-manager-table">
+              <tbody>
+                <tr><th></th>{tableHeaderRow}</tr>
+                {tableBody}
+              </tbody>
+            </table>
+    );
+}
+
 class GraphSpace extends React.Component {
     render() {
         return <canvas id="graph-space" />;
@@ -77,6 +114,9 @@ class ResourceManager extends React.Component {
                   <div>
                     <h2>Resources</h2>
                     <ResourceList resources={this.state.resources} />
+                  </div>
+                  <div>
+                    <ResourceManagementTable resources={this.state.resources} processes={this.state.processes} />
                   </div>
                 </div>
         );

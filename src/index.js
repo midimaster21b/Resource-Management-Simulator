@@ -42,10 +42,6 @@ function ProcessList(props) {
     );
 }
 
-function ProcessTableRow(props) {
-
-}
-
 function ResourceManagementTable(props) {
     const processes = props.processes;
     const resources = props.resources;

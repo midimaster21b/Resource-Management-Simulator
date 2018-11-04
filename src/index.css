@@ -12,3 +12,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+#graph-space {
+    width: 600px;
+    height: 400px;
+    border: 1px solid lightgray;
+}

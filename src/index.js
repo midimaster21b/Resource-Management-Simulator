@@ -28,6 +28,16 @@ function Process(props) {
     return <div>Process {props.name}</div>;
 }
 
+function ProcessCell(props) {
+    return (
+        <td>
+            <button className="resource-acquire-button" onClick={(e) => props.onClick(props.process.props.id, props.resource.props.id, e)}>
+              {getRelationshipText(props.resource, props.process)}
+            </button>
+        </td>
+    );
+}
+
 function ProcessList(props) {
     const processes = props.processes;
     const processListItems = processes.map((process) =>

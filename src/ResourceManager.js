@@ -57,6 +57,62 @@ export class ResourceManager extends React.Component {
         );
     }
 
+    getNextProcessId = (processes) => {
+        if(processes.length === 0) {
+            return 0;
+        }
+
+        let process_id_retval = 0;
+
+        for(let process of processes) {
+            if(process.id >= process_id_retval) {
+                process_id_retval = process.id + 1;
+            }
+        }
+
+        return process_id_retval;
+    }
+
+    addProcess = (process_id, process_name) => {
+        const processes = _.deepCopy(this.state.processes);
+
+        // If process_id not specified, set one
+        if(process_id === null) {
+            process_id = this.getNextProcessId(processes);
+        }
+
+        // If process_name not specified, set one
+        if(process_name === null) {
+            process_name = "unspecified";
+        }
+
+        const process = {"id": process_id, "name": process_name};
+
+        processes.push(process);
+
+        // Update state of resources
+        this.setState(state => ({
+            resources: processes,
+        }));
+    }
+
+    removeProcess = (process_id) => {
+        // If process_id not specified, set one
+        if(process_id === null) {
+            return false;
+        }
+
+        // Remove the process from the processes
+        const processes = _.deepCopy(this.state.processes);
+        const process = {"id": process_id};
+        _.remove(processes, process);
+
+        // Update state of resources
+        this.setState(state => ({
+            processes: processes,
+        }));
+    }
+
     /*
      * Get a resource object using it's resource identifier.
      *

@@ -43,6 +43,9 @@ export class ResourceManager extends React.Component {
                 <div>
                   <h1>Resource Manager</h1>
                   <div>
+                    <ResourceEventFile />
+                  </div>
+                  <div>
                     <h2>Processes</h2>
                     <ProcessList processes={processList} />
                   </div>
@@ -289,6 +292,69 @@ export function ResourceManagementTable(props) {
               </tbody>
             </table>
     );
+}
+
+export class ResourceEventFile extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.fileInput = React.createRef();
+
+        this.state = {
+            text: "Nothing.",
+        };
+    }
+
+    handleSubmit(event) {
+        // Prevent the default browser behavior
+        event.preventDefault();
+
+        const files  = event.target.files;
+        const file   = files[0];
+        let reader   = new FileReader();
+
+        // After file has been read, execute this
+        reader.onload = (event) => {
+            console.log(event.target.result);
+
+            const text = event.target.result;
+
+            this.setState(state => ({
+                "text": this.textToJsx(text),
+            }));
+        }
+
+        // Begin reading file as a text file
+        const content = reader.readAsText(file);
+    }
+
+    textToJsx = (text) => {
+        const textArray = text.split("\n");
+
+        let jsxArray = [];
+
+        for(let line of textArray) {
+            jsxArray.push(<li>{line}</li>);
+        }
+
+        return (
+                <ul>
+                  {jsxArray}
+                </ul>
+        );
+    }
+
+    render() {
+        return ([
+                <form onChange={this.handleSubmit}>
+                    <input type="file" ref={this.fileInput} />
+                </form>,
+                <p>
+                  {this.state.text}
+                </p>
+        ]);
+    }
 }
 
 export function getRelationshipText(res, proc) {

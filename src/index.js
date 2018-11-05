@@ -17,7 +17,7 @@ function ResourceList(props) {
     const resources = props.resources;
 
     const resourceListItems = resources.map((resource) =>
-                                            <li key={resource.props.id}><Resource id={resource.props.id} name={resource.props.name} /></li>
+                                            <li key={resource.props.id}><Resource id={resource.id} name={resource.name} /></li>
                                           );
     return (
             <ul>{resourceListItems}</ul>
@@ -51,6 +51,7 @@ function ProcessList(props) {
 function ResourceManagementTable(props) {
     const processes = props.processes;
     const resources = props.resources;
+    const processOnClick = props.processOnClick;
 
     // Blank cell for first space in table
     const tableHeaderRow = resources.map((resource) =>
@@ -65,7 +66,7 @@ function ResourceManagementTable(props) {
                                         rowData.push(<td><Process id={process.props.id} name={process.props.name} /></td>);
 
                                         for(let resource of resources) {
-                                            rowData.push(<td>{getRelationshipText(resource, process)}</td>);
+                                            rowData.push(<ProcessCell process={process} resource={resource} onClick={processOnClick} />);
                                         }
 
                                         return <tr key={process.props.id}>{rowData}</tr>;
@@ -91,17 +92,6 @@ class ResourceManager extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            // processes: [
-            //         <Process id="1" name="init" />,
-            //         <Process id="2" name="networking" />,
-            //         <Process id="3" name="filesystem" />,
-            // ],
-            // resources: [
-            //         <Resource id="1" name="Disk" />,
-            //         <Resource id="2" name="RAM" />,
-            //         <Resource id="3" name="NIC" />,
-            // ],
-
             processes: [
                 {id: 1, name: "init"},
                 {id: 2, name: "networking"},
@@ -126,7 +116,7 @@ class ResourceManager extends React.Component {
         }
 
         for(let process of this.state.processes) {
-            processList.push(<Process id={process.id} name={process.name} owner={process.owner} waiting={process.waiting} />);
+            processList.push(<Process id={process.id} name={process.name} owner={process.owner} waiting={process.waiting} acquire={this.acquireResource} />);
         }
 
         return (
@@ -141,29 +131,68 @@ class ResourceManager extends React.Component {
                     <ResourceList resources={resourceList} />
                   </div>
                   <div>
-                    <ResourceManagementTable resources={resourceList} processes={processList} />
+                    <ResourceManagementTable resources={resourceList} processes={processList} processOnClick={this.handleAcquireClick}/>
                   </div>
                 </div>
         );
     }
 
-    acquire = (process_id) => {
-        const owner = this.state.owner;
-        const waiting = this.state.waiting;
+                    // <ResourceManagementTable resources={resourceList} processes={processList} processOnClick={this.acquireResource}/>
+
+    /*
+     * Get a resource object using it's resource identifier.
+     *
+     * Returns the resource matching the resource identifier if present
+     * or returns null on failure.
+     */
+    getResourceById = (resources, resource_id) => {
+        for(let resource of resources) {
+            if(resource.id == resource_id) {
+                return resource;
+            }
+        }
+
+        return null;
+    }
+
+    handleAcquireClick = (process_id, resource_id, event_handle) => {
+        this.acquireResource(process_id, resource_id);
+    }
+
+    acquireResource = (process_id, resource_id) => {
+        const resources = _.cloneDeep(this.state.resources);
+        const resource = this.getResourceById(resources, resource_id);
+        const resource_index = _.findIndex(this.state.resources, resource);
+
+        if(resource === null || resource_index == -1) {
+            console.log("ERROR: Resource [" + resource_id + "] requested, but not present.");
+            return false;
+        }
+
+        const owner = resource.owner;
+        const waiting = resource.waiting;
 
         if(owner === null) {
+            // Change local version of resources
+            resources[resource_index].owner = process_id;
+
+            // Update state of resources
             this.setState(state => ({
-                owner: process_id
+                resources: resources,
             }));
+
+            // Return true indicating successful acquisition
             return true;
         }
         else {
             // If the waiting list doesn't contain the process id
             if(!waiting.includes(process_id)) {
+                // Change local version of resources
+                resources[resource_index].waiting.push(process_id);
 
                 // Add the process id to the waiting list
                 this.setState(state => ({
-                    waiting: this.state.waiting.push(process_id)
+                    resources: resources,
                 }));
             }
 
@@ -172,7 +201,7 @@ class ResourceManager extends React.Component {
         }
     }
 
-    release = (process_id) => {
+    releaseResource = (process_id) => {
         const owner = this.state.owner;
         const waiting = this.state.waiting;
 

@@ -14,12 +14,9 @@ export class ResourceManager extends React.Component {
         super(props);
         this.state = {
             processes: [],
-
             resources: [],
-
             resource_events: [],
-
-            debug_area: "Testing 1,2,3",
+            resource_event_counter: 0,
         };
     }
 
@@ -40,9 +37,6 @@ export class ResourceManager extends React.Component {
                   <h1>Resource Manager</h1>
                   <div>
                     <ResourceEventFile fileChangeHandler={this.fileChangeHandler}/>
-                  </div>
-                  <div>
-                    <p>{this.state.debug_area}</p>
                   </div>
                   <div>
                     <ResourceEventList events={this.state.resource_events} />
@@ -167,10 +161,6 @@ export class ResourceManager extends React.Component {
                     console.log("ERROR: Found line which doesn't match standard.");
                 }
             }
-
-            this.setState(state => ({
-                "debug_area": textToJsxList(text),
-            }));
         }
 
         // Begin reading file as a text file

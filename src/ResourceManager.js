@@ -12,17 +12,10 @@ export class ResourceManager extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            processes: [
-                {id: 1, name: "init"},
-                {id: 2, name: "networking"},
-                {id: 3, name:"filesystem"},
-            ],
+            processes: [],
 
-            resources: [
-                {id: 1, name:"Disk", owner: 1, waiting: [2, 3]},
-                {id: 2, name:"RAM", owner: null, waiting: []},
-                {id: 3, name:"NIC", owner: null, waiting: []},
-            ],
+            resources: [],
+
             resource_event: [],
 
             debug_area: "Testing 1,2,3",
@@ -77,7 +70,73 @@ export class ResourceManager extends React.Component {
         reader.onload = (event) => {
             console.log(event.target.result);
 
+            // Get retrieved text
             const text = event.target.result;
+
+            // Split the retrieved text into lines
+            const lines = text.split("\n");
+
+            for(let line of lines) {
+                // Check which type of command it is
+                if(line.includes("processes")) {
+                    const numProcesses = line.match(/(\d+) processes/)[1];
+                    console.log("Found # of processes(" + numProcesses + ") line.");
+
+                    let processArray = [];
+
+                    for(let x = 0; x < numProcesses; x++) {
+                        processArray.push(
+                            {
+                                id: x,
+                                name: "p" + x,
+                            }
+                        );
+                    }
+
+                    this.setState(state => ({
+                        "processes": processArray,
+                    }));
+                }
+                else if(line.includes("resources")) {
+                    const numResources = line.match(/(\d+) resources/)[1];
+                    console.log("Found # of resources(" + numResources + ") line.");
+
+                    // Create the appropriate resources
+                    let resourceArray = [];
+
+                    for(let x = 0; x < numResources; x++) {
+                        resourceArray.push(
+                            {
+                                id: x,
+                                name: "r" + x,
+                                owner: null,
+                                waiting: [],
+                            }
+                        );
+                    }
+
+                    this.setState(state => ({
+                        "resources": resourceArray,
+                    }));
+                }
+                else if(line.includes("requests")) {
+                    const regexResult = line.match(/p(\d+) requests r(\d+)/);
+                    const regexProcess = regexResult[1];
+                    const regexResource = regexResult[2];
+
+                    console.log("Found resource request line: p" + regexProcess + " => r" + regexResource);
+                }
+                else if(line.includes("releases")) {
+                    const regexResult = line.match(/p(\d+) releases r(\d+)/);
+                    const regexProcess = regexResult[1];
+                    const regexResource = regexResult[2];
+
+                    console.log("Found resource release line: p" + regexProcess + " => r" + regexResource);
+                }
+                else {
+                    console.log("ERROR: Found line which doesn't match standard.");
+                }
+            }
 
             this.setState(state => ({
                 "debug_area": textToJsxList(text),

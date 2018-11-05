@@ -73,6 +73,11 @@ export class ResourceManager extends React.Component {
         return null;
     }
 
+    /*
+     * Click handler for requesting and releasing resources.
+     *
+     * Determines if the click should be a request or release and calls the appropriate function.
+     */
     handleRequestClick = (process_id, resource_id, event_handle) => {
         const resources = this.state.resources;
         const resource = this.getResourceById(resources, resource_id);
@@ -91,6 +96,13 @@ export class ResourceManager extends React.Component {
         }
     }
 
+    /*
+     * Requests a resource from a process.
+     *
+     * Requests a resource specified by resource_id from the process specified by
+     * process_id and returns true upon success or false upon duplicate request or
+     * upon being put on the waiting queue.
+     */
     requestResource = (process_id, resource_id) => {
         const resources = _.cloneDeep(this.state.resources);
         const resource = this.getResourceById(resources, resource_id);
@@ -133,6 +145,13 @@ export class ResourceManager extends React.Component {
         }
     }
 
+    /*
+     * Releases a resource for a process.
+     *
+     * Releases the resource specified by resource_id from the process specified by
+     * process_id and returns true upon success or false upon releasing a resource
+     * the process doesn't own.
+     */
     releaseResource = (process_id, resource_id) => {
         const resources = _.cloneDeep(this.state.resources);
         const resource = this.getResourceById(resources, resource_id);

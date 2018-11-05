@@ -24,6 +24,8 @@ export class ResourceManager extends React.Component {
                 {id: 3, name:"NIC", owner: null, waiting: []},
             ],
             resource_event: [],
+
+            debug_area: "Testing 1,2,3",
         };
     }
 
@@ -43,7 +45,10 @@ export class ResourceManager extends React.Component {
                 <div>
                   <h1>Resource Manager</h1>
                   <div>
-                    <ResourceEventFile />
+                    <ResourceEventFile fileChangeHandler={this.fileChangeHandler}/>
+                  </div>
+                  <div>
+                    <p>{this.state.debug_area}</p>
                   </div>
                   <div>
                     <h2>Processes</h2>
@@ -58,6 +63,29 @@ export class ResourceManager extends React.Component {
                   </div>
                 </div>
         );
+    }
+
+    fileChangeHandler = (event) => {
+        // Prevent the default browser behavior
+        event.preventDefault();
+
+        const files  = event.target.files;
+        const file   = files[0];
+        let reader   = new FileReader();
+
+        // After file has been read, execute this
+        reader.onload = (event) => {
+            console.log(event.target.result);
+
+            const text = event.target.result;
+
+            this.setState(state => ({
+                "debug_area": textToJsxList(text),
+            }));
+        }
+
+        // Begin reading file as a text file
+        const content = reader.readAsText(file);
     }
 
     getNextProcessId = (processes) => {
@@ -298,46 +326,16 @@ export class ResourceEventFile extends React.Component {
     constructor(props) {
         super(props);
 
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSubmit = props.fileChangeHandler.bind(this);
         this.fileInput = React.createRef();
-
-        this.state = {
-            text: "Nothing.",
-        };
-    }
-
-    handleSubmit(event) {
-        // Prevent the default browser behavior
-        event.preventDefault();
-
-        const files  = event.target.files;
-        const file   = files[0];
-        let reader   = new FileReader();
-
-        // After file has been read, execute this
-        reader.onload = (event) => {
-            console.log(event.target.result);
-
-            const text = event.target.result;
-
-            this.setState(state => ({
-                "text": textToJsxList(text),
-            }));
-        }
-
-        // Begin reading file as a text file
-        const content = reader.readAsText(file);
     }
 
     render() {
-        return ([
+        return (
                 <form onChange={this.handleSubmit}>
-                    <input type="file" ref={this.fileInput} />
-                </form>,
-                <p>
-                  {this.state.text}
-                </p>
-        ]);
+                  <input type="file" ref={this.fileInput} />
+                </form>
+        );
     }
 }
 

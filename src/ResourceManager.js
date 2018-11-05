@@ -1,6 +1,7 @@
 import React from 'react';
 import './index.css';
 import {Resource, ResourceList} from './Resource';
+import {ResourceEvent, ResourceEventList} from './ResourceEvent';
 import {Process, ProcessCell, ProcessList} from './ProcessResource';
 
 // If deep clone is needed...
@@ -16,7 +17,7 @@ export class ResourceManager extends React.Component {
 
             resources: [],
 
-            resource_event: [],
+            resource_events: [],
 
             debug_area: "Testing 1,2,3",
         };
@@ -42,6 +43,9 @@ export class ResourceManager extends React.Component {
                   </div>
                   <div>
                     <p>{this.state.debug_area}</p>
+                  </div>
+                  <div>
+                    <ResourceEventList events={this.state.resource_events} />
                   </div>
                   <div>
                     <h2>Processes</h2>
@@ -125,6 +129,19 @@ export class ResourceManager extends React.Component {
                     const regexResource = regexResult[2];
 
                     console.log("Found resource request line: p" + regexProcess + " => r" + regexResource);
+
+                    const event_list = _.cloneDeep(this.state.resource_events);
+                    const resourceEvent = {
+                        "process_id": regexProcess,
+                        "resource_id": regexResource,
+                        "operation": "requests",
+                    };
+
+                    event_list.push(resourceEvent);
+
+                    this.setState(state => ({
+                        "resource_events": event_list,
+                    }));
                 }
                 else if(line.includes("releases")) {
                     const regexResult = line.match(/p(\d+) releases r(\d+)/);
@@ -132,6 +149,19 @@ export class ResourceManager extends React.Component {
                     const regexResource = regexResult[2];
 
                     console.log("Found resource release line: p" + regexProcess + " => r" + regexResource);
+
+                    const event_list = _.cloneDeep(this.state.resource_events);
+                    const resourceEvent = {
+                        "process_id": regexProcess,
+                        "resource_id": regexResource,
+                        "operation": "releases",
+                    };
+
+                    event_list.push(resourceEvent);
+
+                    this.setState(state => ({
+                        "resource_events": event_list,
+                    }));
                 }
                 else {
                     console.log("ERROR: Found line which doesn't match standard.");
@@ -164,7 +194,7 @@ export class ResourceManager extends React.Component {
     }
 
     addProcess = (process_id, process_name) => {
-        const processes = _.deepCopy(this.state.processes);
+        const processes = _.cloneDeep(this.state.processes);
 
         // If process_id not specified, set one
         if(process_id === null) {
@@ -193,7 +223,7 @@ export class ResourceManager extends React.Component {
         }
 
         // Remove the process from the processes
-        const processes = _.deepCopy(this.state.processes);
+        const processes = _.cloneDeep(this.state.processes);
         const process = {"id": process_id};
         _.remove(processes, process);
 

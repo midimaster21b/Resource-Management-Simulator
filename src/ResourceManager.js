@@ -321,28 +321,12 @@ export class ResourceEventFile extends React.Component {
             const text = event.target.result;
 
             this.setState(state => ({
-                "text": this.textToJsx(text),
+                "text": textToJsxList(text),
             }));
         }
 
         // Begin reading file as a text file
         const content = reader.readAsText(file);
-    }
-
-    textToJsx = (text) => {
-        const textArray = text.split("\n");
-
-        let jsxArray = [];
-
-        for(let line of textArray) {
-            jsxArray.push(<li>{line}</li>);
-        }
-
-        return (
-                <ul>
-                  {jsxArray}
-                </ul>
-        );
     }
 
     render() {
@@ -373,5 +357,21 @@ export function getRelationshipText(res, proc) {
         return "";
     }
 }
+
+export function textToJsxList(text) {
+        const textArray = text.split("\n");
+
+        let jsxArray = [];
+
+        for(let line of textArray) {
+            jsxArray.push(<li>{line}</li>);
+        }
+
+        return (
+                <ul>
+                  {jsxArray}
+                </ul>
+        );
+    }
 
 export default ResourceManager;

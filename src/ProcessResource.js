@@ -1,7 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './index.css';
-import {Resource, ResourceList} from './Resource';
 import {getRelationshipText} from './ResourceManager';
 
 export function Process(props) {

@@ -1,7 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './index.css';
-// import {ResourceList, Resource} from './Resource';
 import {Resource, ResourceList} from './Resource';
 import {Process, ProcessCell, ProcessList} from './ProcessResource';
 
@@ -34,7 +32,6 @@ export class ResourceManager extends React.Component {
         let processList = []
 
         for(let resource of this.state.resources) {
-            console.log("Creating resource: " + resource.name);
             resourceList.push(<Resource id={resource.id} name={resource.name} owner={resource.owner} waiting={resource.waiting} />);
         }
 
@@ -70,7 +67,7 @@ export class ResourceManager extends React.Component {
      */
     getResourceById = (resources, resource_id) => {
         for(let resource of resources) {
-            if(resource.id == resource_id) {
+            if(resource.id === resource_id) {
                 return resource;
             }
         }
@@ -87,7 +84,7 @@ export class ResourceManager extends React.Component {
         const resource = this.getResourceById(resources, resource_id);
         const resource_index = _.findIndex(this.state.resources, resource);
 
-        if(resource === null || resource_index == -1) {
+        if(resource === null || resource_index === -1) {
             console.log("ERROR: Resource [" + resource_id + "] requested, but not present.");
             return false;
         }
@@ -194,7 +191,7 @@ export function getRelationshipText(res, proc) {
     const owner = res.props.owner;
     const waiting = res.props.waiting;
 
-    if(proc.props.id == owner) {
+    if(proc.props.id === owner) {
         return "Owner";
     }
 

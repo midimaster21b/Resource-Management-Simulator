@@ -1,18 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 // import {Resource, ResourceList} from './Resource';
 // import {Process, ProcessCell, ProcessList} from './ProcessResource';
 import {ResourceManager} from './ResourceManager';
-
-class GraphSpace extends React.Component {
-    render() {
-        return <canvas id="graph-space" />;
-    }
-}
 
 ReactDOM.render(<ResourceManager />, document.getElementById('root'));
 

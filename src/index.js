@@ -4,78 +4,13 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-class Resource extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            owner: null,
-            waiting: [],
-        };
-    }
-
-    acquire(process_id) {
-        const owner = this.state.owner;
-        const waiting = this.state.waiting;
-
-        if(owner === null) {
-            this.setState(state => ({
-                owner: process_id
-            }));
-            return true;
-        }
-        else {
-            // If the waiting list doesn't contain the process id
-            if(!waiting.includes(process_id)) {
-
-                // Add the process id to the waiting list
-                this.setState(state => ({
-                    waiting: this.state.waiting.push(process_id)
-                }));
-            }
-
-            // Return false indicating failure to acquire
-            return false;
-        }
-    }
-
-    release(process_id) {
-        const owner = this.state.owner;
-        const waiting = this.state.waiting;
-
-        // If the correct process_id was supplied
-        if(owner === process_id) {
-            let nextWaiting = waiting;
-            let nextOwner =  nextWaiting.shift();
-
-            if(nextOwner === undefined) {
-                nextOwner = null;
-            }
-
-            // Add the process id to the waiting list
-            this.setState(state => ({
-                owner: nextOwner,
-                waiting: nextWaiting,
-            }));
-
-            return true;
-        }
-
-        else {
-            // TODO: This is an error if this occurs!
-            // YOU SHOULD NEVER RELEASE A RESOURCE YOU DON'T OWN
-            // SOMETHING HAS CAUSE THE PROGRAM TO FALL OUT OF SYNC
-            console.log("ERROR: A process(" + process_id + ") tried to release a resource() without ownership.");
-            return false;
-        }
-    }
-
-    render() {
-        return <div>Resource {this.props.name}</div>;
-    }
+function Resource(props) {
+    return <div>Resource {props.name}</div>;
 }
 
 function ResourceList(props) {
     const resources = props.resources;
+
     const resourceListItems = resources.map((resource) =>
                                             <li key={resource.props.id}><Resource id={resource.props.id} name={resource.props.name} /></li>
                                           );
@@ -84,16 +19,8 @@ function ResourceList(props) {
     );
 }
 
-class Process extends React.Component {
-    componentDidMount() {
-    }
-
-    componentWillUnmount() {
-    }
-
-    render() {
-        return <div>Process {this.props.name}</div>;
-    }
+function Process(props) {
+    return <div>Process {props.name}</div>;
 }
 
 function ProcessList(props) {
@@ -204,6 +131,62 @@ class ResourceManager extends React.Component {
                 </div>
         );
     }
+
+    acquire = (process_id) => {
+        const owner = this.state.owner;
+        const waiting = this.state.waiting;
+
+        if(owner === null) {
+            this.setState(state => ({
+                owner: process_id
+            }));
+            return true;
+        }
+        else {
+            // If the waiting list doesn't contain the process id
+            if(!waiting.includes(process_id)) {
+
+                // Add the process id to the waiting list
+                this.setState(state => ({
+                    waiting: this.state.waiting.push(process_id)
+                }));
+            }
+
+            // Return false indicating failure to acquire
+            return false;
+        }
+    }
+
+    release = (process_id) => {
+        const owner = this.state.owner;
+        const waiting = this.state.waiting;
+
+        // If the correct process_id was supplied
+        if(owner === process_id) {
+            let nextWaiting = waiting;
+            let nextOwner =  nextWaiting.shift();
+
+            if(nextOwner === undefined) {
+                nextOwner = null;
+            }
+
+            // Add the process id to the waiting list
+            this.setState(state => ({
+                owner: nextOwner,
+                waiting: nextWaiting,
+            }));
+
+            return true;
+        }
+
+        else {
+            // TODO: This is an error if this occurs!
+            // YOU SHOULD NEVER RELEASE A RESOURCE YOU DON'T OWN
+            // SOMETHING HAS CAUSE THE PROGRAM TO FALL OUT OF SYNC
+            console.log("ERROR: A process(" + process_id + ") tried to release a resource() without ownership.");
+            return false;
+        }
+    }
 }
 
 ReactDOM.render(<ResourceManager />, document.getElementById('root'));
@@ -214,23 +197,8 @@ ReactDOM.render(<ResourceManager />, document.getElementById('root'));
 serviceWorker.unregister();
 
 function getRelationshipText(res, proc) {
-    // console.log("Process: " + Object.getOwnPropertyNames(proc.props));
-    // console.log("Process: " + proc.props.id);
-    // console.log("Props: " + proc.props.toString());
-    // // console.log("State: " + proc.state.toString());
-    // console.log("Resource: " + Object.getOwnPropertyNames(res));
-    // console.log("Resource: " + Object.getOwnPropertyNames(res.props));
-    // console.log("Resource: " + res.state.testing);
-
     const owner = res.props.owner;
     const waiting = res.props.waiting;
-    // console.log("Owner: " + owner);
-    // console.log("Waiting: " + waiting);
-    // console.log("==================\n");
-
-    console.log("Process id: " + proc.props.id);
-    console.log("Resource owner: " + owner);
-    console.log("Resource wait: " + waiting);
 
     if(proc.props.id == owner) {
         return "Owner";

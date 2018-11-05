@@ -2,9 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-
-// import {Resource, ResourceList} from './Resource';
-// import {Process, ProcessCell, ProcessList} from './ProcessResource';
 import {ResourceManager} from './ResourceManager';
 
 ReactDOM.render(<ResourceManager />, document.getElementById('root'));

@@ -76,7 +76,21 @@ export class ResourceManager extends React.Component {
     }
 
     handleAcquireClick = (process_id, resource_id, event_handle) => {
-        this.acquireResource(process_id, resource_id);
+        const resources = this.state.resources;
+        const resource = this.getResourceById(resources, resource_id);
+
+        if(resource === null || resource === -1) {
+            console.log("ERROR: Resource [" + resource_id + "] requested by process [" + process_id + "], but not present.");
+            return false;
+        }
+
+        // If currently following resource, release it
+        if(resource.waiting.includes(process_id) || resource.owner === process_id) {
+            this.releaseResource(process_id, resource_id);
+        }
+        else {
+            this.acquireResource(process_id, resource_id);
+        }
     }
 
     acquireResource = (process_id, resource_id) => {
@@ -121,25 +135,42 @@ export class ResourceManager extends React.Component {
         }
     }
 
-    releaseResource = (process_id) => {
-        const owner = this.state.owner;
-        const waiting = this.state.waiting;
+    releaseResource = (process_id, resource_id) => {
+        const resources = _.cloneDeep(this.state.resources);
+        const resource = this.getResourceById(resources, resource_id);
+        const resource_index = _.findIndex(this.state.resources, resource);
+
+        if(resource === null || resource_index === -1) {
+            console.log("ERROR: Resource [" + resource_id + "] requested, but not present.");
+            return false;
+        }
+
+        const owner = resource.owner;
+        const waiting = resource.waiting;
 
         // If the correct process_id was supplied
         if(owner === process_id) {
-            let nextWaiting = waiting;
-            let nextOwner =  nextWaiting.shift();
 
+            // Shift off first element in waiting array and store int nextOwner
+            // Note: mutates the waiting array
+            const nextOwner = waiting.shift();
+
+            // Check if no-one was one array(used as queue)
             if(nextOwner === undefined) {
-                nextOwner = null;
+                resources[resource_index].owner = null;
+            } else {
+                resources[resource_index].owner = nextOwner;
             }
 
-            // Add the process id to the waiting list
+            // Change local version of resources
+            resources[resource_index].waiting = waiting;
+
+            // Update state of resources
             this.setState(state => ({
-                owner: nextOwner,
-                waiting: nextWaiting,
+                resources: resources,
             }));
 
+            // Return true indicating successful acquisition
             return true;
         }
 
@@ -147,7 +178,7 @@ export class ResourceManager extends React.Component {
             // TODO: This is an error if this occurs!
             // YOU SHOULD NEVER RELEASE A RESOURCE YOU DON'T OWN
             // SOMETHING HAS CAUSE THE PROGRAM TO FALL OUT OF SYNC
-            console.log("ERROR: A process(" + process_id + ") tried to release a resource() without ownership.");
+            console.log("ERROR: Process(" + process_id + ") tried to release a resource(" + resource.id + ") without ownership.");
             return false;
         }
     }

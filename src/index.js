@@ -5,6 +5,70 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 class Resource extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            owner: null,
+            waiting: [],
+        };
+    }
+
+    acquire(process_id) {
+        const owner = this.state.owner;
+        const waiting = this.state.waiting;
+
+        if(owner === null) {
+            this.setState(state => ({
+                owner: process_id
+            }));
+            return true;
+        }
+        else {
+            // If the waiting list doesn't contain the process id
+            if(!waiting.includes(process_id)) {
+
+                // Add the process id to the waiting list
+                this.setState(state => ({
+                    waiting: this.state.waiting.push(process_id)
+                }));
+            }
+
+            // Return false indicating failure to acquire
+            return false;
+        }
+    }
+
+    release(process_id) {
+        const owner = this.state.owner;
+        const waiting = this.state.waiting;
+
+        // If the correct process_id was supplied
+        if(owner === process_id) {
+            let nextWaiting = waiting;
+            let nextOwner =  nextWaiting.shift();
+
+            if(nextOwner === undefined) {
+                nextOwner = null;
+            }
+
+            // Add the process id to the waiting list
+            this.setState(state => ({
+                owner: nextOwner,
+                waiting: nextWaiting,
+            }));
+
+            return true;
+        }
+
+        else {
+            // TODO: This is an error if this occurs!
+            // YOU SHOULD NEVER RELEASE A RESOURCE YOU DON'T OWN
+            // SOMETHING HAS CAUSE THE PROGRAM TO FALL OUT OF SYNC
+            console.log("ERROR: A process(" + process_id + ") tried to release a resource() without ownership.");
+            return false;
+        }
+    }
+
     render() {
         return <div>Resource {this.props.name}</div>;
     }

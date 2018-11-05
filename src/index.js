@@ -4,6 +4,11 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+// If deep clone is needed...
+// https://stackoverflow.com/questions/29537299/react-how-do-i-update-state-item1-on-setstate-with-jsfiddle/46865234#46865234
+// import {cloneDeep} from 'lodash';
+var _ = require('lodash');
+
 function Resource(props) {
     return <div>Resource {props.name}</div>;
 }

@@ -122,8 +122,8 @@ function ResourceManagementTable(props) {
 
                                         rowData.push(<td><Process id={process.props.id} name={process.props.name} /></td>);
 
-                                        for(let i=0; i<resources.length; i++) {
-                                            rowData.push(<td>1</td>);
+                                        for(let resource of resources) {
+                                            rowData.push(<td>{getRelationshipText(resource, process)}</td>);
                                         }
 
                                         return <tr key={process.props.id}>{rowData}</tr>;
@@ -149,34 +149,57 @@ class ResourceManager extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            // processes: [
+            //         <Process id="1" name="init" />,
+            //         <Process id="2" name="networking" />,
+            //         <Process id="3" name="filesystem" />,
+            // ],
+            // resources: [
+            //         <Resource id="1" name="Disk" />,
+            //         <Resource id="2" name="RAM" />,
+            //         <Resource id="3" name="NIC" />,
+            // ],
+
             processes: [
-                    <Process id="1" name="init" />,
-                    <Process id="2" name="networking" />,
-                    <Process id="3" name="filesystem" />,
+                {id: 1, name: "init"},
+                {id: 2, name: "networking"},
+                {id: 3, name:"filesystem"},
             ],
+
             resources: [
-                    <Resource id="1" name="Disk" />,
-                    <Resource id="2" name="RAM" />,
-                    <Resource id="3" name="NIC" />,
+                {id: 1, name:"Disk", owner: 1, waiting: [2, 3]},
+                {id: 2, name:"RAM", owner: null, waiting: []},
+                {id: 3, name:"NIC", owner: null, waiting: []},
             ],
             resource_event: [],
         };
     }
 
     render() {
+        let resourceList = [];
+        let processList = []
+
+        for(let resource of this.state.resources) {
+            resourceList.push(<Resource id={resource.id} name={resource.name} owner={resource.owner} waiting={resource.waiting} />);
+        }
+
+        for(let process of this.state.processes) {
+            processList.push(<Process id={process.id} name={process.name} owner={process.owner} waiting={process.waiting} />);
+        }
+
         return (
                 <div>
                   <h1>Resource Manager</h1>
                   <div>
                     <h2>Processes</h2>
-                    <ProcessList processes={this.state.processes} />
+                    <ProcessList processes={processList} />
                   </div>
                   <div>
                     <h2>Resources</h2>
-                    <ResourceList resources={this.state.resources} />
+                    <ResourceList resources={resourceList} />
                   </div>
                   <div>
-                    <ResourceManagementTable resources={this.state.resources} processes={this.state.processes} />
+                    <ResourceManagementTable resources={resourceList} processes={processList} />
                   </div>
                 </div>
         );
@@ -189,3 +212,35 @@ ReactDOM.render(<ResourceManager />, document.getElementById('root'));
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: http://bit.ly/CRA-PWA
 serviceWorker.unregister();
+
+function getRelationshipText(res, proc) {
+    // console.log("Process: " + Object.getOwnPropertyNames(proc.props));
+    // console.log("Process: " + proc.props.id);
+    // console.log("Props: " + proc.props.toString());
+    // // console.log("State: " + proc.state.toString());
+    // console.log("Resource: " + Object.getOwnPropertyNames(res));
+    // console.log("Resource: " + Object.getOwnPropertyNames(res.props));
+    // console.log("Resource: " + res.state.testing);
+
+    const owner = res.props.owner;
+    const waiting = res.props.waiting;
+    // console.log("Owner: " + owner);
+    // console.log("Waiting: " + waiting);
+    // console.log("==================\n");
+
+    console.log("Process id: " + proc.props.id);
+    console.log("Resource owner: " + owner);
+    console.log("Resource wait: " + waiting);
+
+    if(proc.props.id == owner) {
+        return "Owner";
+    }
+
+    else if(waiting.includes(proc.props.id)) {
+        return "Waiting";
+    }
+
+    else {
+        return "";
+    }
+}

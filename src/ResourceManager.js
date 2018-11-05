@@ -36,7 +36,7 @@ export class ResourceManager extends React.Component {
         }
 
         for(let process of this.state.processes) {
-            processList.push(<Process id={process.id} name={process.name} owner={process.owner} waiting={process.waiting} acquire={this.acquireResource} />);
+            processList.push(<Process id={process.id} name={process.name} owner={process.owner} waiting={process.waiting} clickHandler={this.requestResource} />);
         }
 
         return (
@@ -51,13 +51,11 @@ export class ResourceManager extends React.Component {
                     <ResourceList resources={resourceList} />
                   </div>
                   <div>
-                    <ResourceManagementTable resources={resourceList} processes={processList} processOnClick={this.handleAcquireClick}/>
+                    <ResourceManagementTable resources={resourceList} processes={processList} processOnClick={this.handleRequestClick}/>
                   </div>
                 </div>
         );
     }
-
-                    // <ResourceManagementTable resources={resourceList} processes={processList} processOnClick={this.acquireResource}/>
 
     /*
      * Get a resource object using it's resource identifier.
@@ -75,7 +73,7 @@ export class ResourceManager extends React.Component {
         return null;
     }
 
-    handleAcquireClick = (process_id, resource_id, event_handle) => {
+    handleRequestClick = (process_id, resource_id, event_handle) => {
         const resources = this.state.resources;
         const resource = this.getResourceById(resources, resource_id);
 
@@ -89,11 +87,11 @@ export class ResourceManager extends React.Component {
             this.releaseResource(process_id, resource_id);
         }
         else {
-            this.acquireResource(process_id, resource_id);
+            this.requestResource(process_id, resource_id);
         }
     }
 
-    acquireResource = (process_id, resource_id) => {
+    requestResource = (process_id, resource_id) => {
         const resources = _.cloneDeep(this.state.resources);
         const resource = this.getResourceById(resources, resource_id);
         const resource_index = _.findIndex(this.state.resources, resource);

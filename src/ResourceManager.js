@@ -68,13 +68,29 @@ export class ResourceManager extends React.Component {
         );
     }
 
-    nextEvent = () => {
+    nextEvent = (event) => {
+        // Prevent the default browser behavior
+        event.preventDefault();
+
         // Get the current event counter
         const count = this.state.resource_event_counter;
 
         // Bound the value of count to less than or equal to length - 1
         if(count >= this.state.resource_events.length - 1) {
-            return;
+            return false;
+        }
+
+        const resourceEvent = this.state.resource_events[count+1];
+
+        if(resourceEvent.operation === "requests") {
+            this.requestResource(resourceEvent.process_id, resourceEvent.resource_id);
+        }
+        else if(resourceEvent.operaiton === "releases") {
+            this.releaseResource(resourceEvent.process_id, resourceEvent.resource_id);
+        }
+        else {
+            console.log("ERROR: Unknown resource operation found.");
+            return false;
         }
 
         // Store new count
@@ -161,8 +177,8 @@ export class ResourceManager extends React.Component {
                 }
                 else if(line.includes("requests")) {
                     const regexResult = line.match(/p(\d+) requests r(\d+)/);
-                    const regexProcess = regexResult[1];
-                    const regexResource = regexResult[2];
+                    const regexProcess = parseInt(regexResult[1]);
+                    const regexResource = parseInt(regexResult[2]);
 
                     console.log("Found resource request line: p" + regexProcess + " => r" + regexResource);
 
@@ -181,8 +197,8 @@ export class ResourceManager extends React.Component {
                 }
                 else if(line.includes("releases")) {
                     const regexResult = line.match(/p(\d+) releases r(\d+)/);
-                    const regexProcess = regexResult[1];
-                    const regexResource = regexResult[2];
+                    const regexProcess = parseInt(regexResult[1]);
+                    const regexResource = parseInt(regexResult[2]);
 
                     console.log("Found resource release line: p" + regexProcess + " => r" + regexResource);
 

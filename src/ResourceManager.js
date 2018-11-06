@@ -24,10 +24,12 @@ export class ResourceManager extends React.Component {
         let resourceList = [];
         let processList = []
 
+        // Create resource JSX
         for(let resource of this.state.resources) {
             resourceList.push(<Resource id={resource.id} name={resource.name} owner={resource.owner} waiting={resource.waiting} />);
         }
 
+        // Create process JSX
         for(let process of this.state.processes) {
             processList.push(<Process id={process.id} name={process.name} owner={process.owner} waiting={process.waiting} clickHandler={this.requestResource} />);
         }
@@ -70,6 +72,11 @@ export class ResourceManager extends React.Component {
         // Get the current event counter
         const count = this.state.resource_event_counter;
 
+        // Bound the value of count to less than or equal to length - 1
+        if(count >= this.state.resource_events.length - 1) {
+            return;
+        }
+
         // Store new count
         this.setState(state => ({
             "resource_event_counter": count + 1,
@@ -79,6 +86,11 @@ export class ResourceManager extends React.Component {
     prevEvent = () => {
         // Get the current event counter
         const count = this.state.resource_event_counter;
+
+        // Bound the value of count to greater than or equal to zero
+        if(count - 1 < 0) {
+            return;
+        }
 
         // Store new count
         this.setState(state => ({

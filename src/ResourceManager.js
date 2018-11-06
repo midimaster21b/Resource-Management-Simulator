@@ -39,7 +39,17 @@ export class ResourceManager extends React.Component {
                     <ResourceEventFile fileChangeHandler={this.fileChangeHandler}/>
                   </div>
                   <div>
-                    <ResourceEventList events={this.state.resource_events} />
+                    <ResourceEventList events={this.state.resource_events} eventCounter={this.state.resource_event_counter}/>
+                  </div>
+                  <div>
+                    <button onClick={this.prevEvent}>
+                      Previous
+                    </button>
+                  </div>
+                  <div>
+                    <button onClick={this.nextEvent}>
+                      Next
+                    </button>
                   </div>
                   <div>
                     <h2>Processes</h2>
@@ -54,6 +64,26 @@ export class ResourceManager extends React.Component {
                   </div>
                 </div>
         );
+    }
+
+    nextEvent = () => {
+        // Get the current event counter
+        const count = this.state.resource_event_counter;
+
+        // Store new count
+        this.setState(state => ({
+            "resource_event_counter": count + 1,
+        }));
+    }
+
+    prevEvent = () => {
+        // Get the current event counter
+        const count = this.state.resource_event_counter;
+
+        // Store new count
+        this.setState(state => ({
+            "resource_event_counter": count - 1,
+        }));
     }
 
     fileChangeHandler = (event) => {

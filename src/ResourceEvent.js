@@ -1,5 +1,8 @@
 import React from 'react';
 import './index.css';
+import './ResourceEvent.css';
+
+var _ = require('lodash');
 
 export function ResourceEvent(props) {
     return <p>{props.process_id} {props.operation} {props.resource_id}</p>
@@ -16,7 +19,9 @@ export function ResourceEventList(props) {
     }
 
     for(let event of props.events) {
-        resourceEventArray.push(<li>{event.process_id} {event.operation} {event.resource_id}</li>);
+        let currentEvent = (_.findIndex(props.events, event) === props.eventCounter);
+
+        resourceEventArray.push(<li className={"event-item " + (currentEvent ? "current-event" : "")}>{event.process_id} {event.operation} {event.resource_id}</li>);
     }
 
     return (

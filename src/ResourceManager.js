@@ -85,7 +85,7 @@ export class ResourceManager extends React.Component {
         if(resourceEvent.operation === "requests") {
             this.requestResource(resourceEvent.process_id, resourceEvent.resource_id);
         }
-        else if(resourceEvent.operaiton === "releases") {
+        else if(resourceEvent.operation === "releases") {
             this.releaseResource(resourceEvent.process_id, resourceEvent.resource_id);
         }
         else {

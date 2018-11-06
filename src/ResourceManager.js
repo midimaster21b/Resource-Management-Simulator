@@ -135,8 +135,9 @@ export class ResourceManager extends React.Component {
             for(let line of lines) {
                 // Check which type of command it is
                 if(line.includes("processes")) {
+                    // Get the matching number of processes group
                     const numProcesses = line.match(/(\d+) processes/)[1];
-                    console.log("Found # of processes(" + numProcesses + ") line.");
+                    console.log("Found " + numProcesses + " processes.");
 
                     let processArray = [];
 
@@ -154,8 +155,9 @@ export class ResourceManager extends React.Component {
                     }));
                 }
                 else if(line.includes("resources")) {
+                    // Get matching number of resources group
                     const numResources = line.match(/(\d+) resources/)[1];
-                    console.log("Found # of resources(" + numResources + ") line.");
+                    console.log("Found " + numResources + " resources.");
 
                     // Create the appropriate resources
                     let resourceArray = [];
@@ -340,9 +342,13 @@ export class ResourceManager extends React.Component {
         const owner = resource.owner;
         const waiting = resource.waiting;
 
+        console.log("Process " + process_id + " is requesting Resource " + resource_id);
+
         if(owner === null) {
             // Change local version of resources
             resources[resource_index].owner = process_id;
+
+            console.log("Resource is free!");
 
             // Update state of resources
             this.setState(state => ({
@@ -358,11 +364,17 @@ export class ResourceManager extends React.Component {
                 // Change local version of resources
                 resources[resource_index].waiting.push(process_id);
 
+                console.log("Process joining the wait queue...");
+
                 // Add the process id to the waiting list
                 this.setState(state => ({
                     resources: resources,
                 }));
+
+                return false;
             }
+
+            console.log("ERROR: Process duplicate resource request.");
 
             // Return false indicating failure to acquire
             return false;

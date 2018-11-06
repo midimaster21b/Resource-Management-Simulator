@@ -16,7 +16,7 @@ export class ResourceManager extends React.Component {
             processes: [],
             resources: [],
             resource_events: [],
-            resource_event_counter: 0,
+            resource_event_counter: -1,
         };
     }
 
@@ -50,7 +50,7 @@ export class ResourceManager extends React.Component {
                   </div>
                   <div>
                     <button onClick={this.nextEvent}>
-                      Next
+                      {this.state.resource_event_counter === -1 ? "Start" : "Next"}
                     </button>
                   </div>
                   <div>

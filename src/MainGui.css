@@ -1,22 +1,49 @@
-/* ResourceEventFile { */
-/*     background-color: #f00; */
+/* /\* Full panel *\/ */
+/* .main-panel { */
+/*     border: 1px solid #000; */
+/*     margin: 0px auto; */
+/*     padding: 0; */
+/*     width: 1000px; */
 /* } */
 
-.graph-panel {
-    float: left;
-}
+/* /\* Graph panel *\/ */
+/* .graph-panel { */
+/*     float: left; */
+/*     height: 500px; */
+/*     margin: 0; */
+/*     padding: 0; */
+/*     width: 700px; */
+/* } */
 
-.instruction-nav-button {
-    float: left;
-    height: 40px;
-    width: 50%;
-}
+/* /\* Instruction panel *\/ */
+/* .instruction-file-section { */
+/*     float: left; */
+/*     width: 100%; */
+/* } */
 
-.instruction-panel {
-    backround-color: #aaa;
-    border: 2px solid #000;
-    float: left;
-    color: #222;
-    /* height: 300px; */
-    width: 260px;
-}
+/* .instruction-list { */
+/*     list-style-type: none; */
+/*     margin: 0; */
+/*     padding: 0; */
+/* } */
+
+/* .instruction-nav-button { */
+/*     float: left; */
+/*     height: 40px; */
+/*     width: 50%; */
+/* } */
+
+/* .instruction-panel { */
+/*     backround-color: #aaa; */
+/*     border: 2px solid #000; */
+/*     float: left; */
+/*     color: #222; */
+/*     height: 500px; */
+/*     width: 260px; */
+/* } */
+
+/* .instruction-section { */
+/*     float: left; */
+/*     /\* height: 500px; *\/ */
+/*     width: 100%; */
+/* } */

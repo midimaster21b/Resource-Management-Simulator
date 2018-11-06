@@ -1,5 +1,8 @@
 import React from 'react';
 
+// Material theming
+import Grid from '@material-ui/core/Grid';
+
 // My components
 import {Resource, ResourceList} from './Resource';
 import {ResourceEvent, ResourceEventList} from './ResourceEvent';
@@ -40,44 +43,47 @@ export class ResourceManager extends React.Component {
         }
 
         return (
-                <div>
-                  <h1>Resource Manager</h1>
-                  <div className="instruction-panel">
-                    <div>
+                <Grid container spacing={12}>
+                  <Grid item xs={3}>
+                    <div className="instruction-file-section">
                       <ResourceEventFile fileChangeHandler={this.fileChangeHandler}/>
                     </div>
-                    <div>
+                    <div className="instruction-section">
                       <ResourceEventList events={this.state.resource_events} eventCounter={this.state.resource_event_counter}/>
                     </div>
                     <div>
-                      <button onClick={this.prevEvent}>
+                      <button className="instruction-nav-button" onClick={this.prevEvent}>
                         Previous
                       </button>
                     </div>
                     <div>
-                      <button onClick={this.nextEvent}>
+                      <button className="instruction-nav-button" onClick={this.nextEvent}>
                         {this.state.resource_event_counter === -1 ? "Start" : "Next"}
                       </button>
                     </div>
-                  </div>
+                  </Grid>
 
-                  <div className="graph-panel">
+
+                  <Grid item xs={9}>
                     <canvas id="graph-space" />
                     <GraphSpace resources={this.state.resources} processes={this.state.processes} />
-                  </div>
+                  </Grid>
 
-                  <div>
-                    <h2>Processes</h2>
-                    <ProcessList processes={processList} />
-                  </div>
-                  <div>
-                    <h2>Resources</h2>
-                    <ResourceList resources={resourceList} />
-                  </div>
-                  <div>
+                  <Grid item xs={3}>
+                    <div>
+                      <h2>Processes</h2>
+                      <ProcessList processes={processList} />
+                    </div>
+                    <div>
+                      <h2>Resources</h2>
+                      <ResourceList resources={resourceList} />
+                    </div>
+                  </Grid>
+
+                  <Grid item xs={9}>
                     <ResourceManagementTable resources={resourceList} processes={processList} processOnClick={this.handleRequestClick}/>
-                  </div>
-                </div>
+                  </Grid>
+                </Grid>
         );
     }
 

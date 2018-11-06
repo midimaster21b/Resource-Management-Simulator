@@ -13,7 +13,7 @@ export function ResourceEventList(props) {
 
     if(props.events.length === 0) {
         return (
-            <ul>
+            <ul className="instruction-list">
             </ul>
         );
     }
@@ -25,7 +25,7 @@ export function ResourceEventList(props) {
     }
 
     return (
-            <ul>
+            <ul className="instruction-list">
               {resourceEventArray}
             </ul>
     );

@@ -1,8 +1,13 @@
 import React from 'react';
-import './index.css';
+
+// My components
 import {Resource, ResourceList} from './Resource';
 import {ResourceEvent, ResourceEventList} from './ResourceEvent';
 import {Process, ProcessCell, ProcessList} from './ProcessResource';
+import {GraphSpace} from './Graphing.js';
+
+// My theming
+import './MainGui.css';
 
 // If deep clone is needed...
 // https://stackoverflow.com/questions/29537299/react-how-do-i-update-state-item1-on-setstate-with-jsfiddle/46865234#46865234
@@ -37,22 +42,30 @@ export class ResourceManager extends React.Component {
         return (
                 <div>
                   <h1>Resource Manager</h1>
-                  <div>
-                    <ResourceEventFile fileChangeHandler={this.fileChangeHandler}/>
+                  <div className="instruction-panel">
+                    <div>
+                      <ResourceEventFile fileChangeHandler={this.fileChangeHandler}/>
+                    </div>
+                    <div>
+                      <ResourceEventList events={this.state.resource_events} eventCounter={this.state.resource_event_counter}/>
+                    </div>
+                    <div>
+                      <button onClick={this.prevEvent}>
+                        Previous
+                      </button>
+                    </div>
+                    <div>
+                      <button onClick={this.nextEvent}>
+                        {this.state.resource_event_counter === -1 ? "Start" : "Next"}
+                      </button>
+                    </div>
                   </div>
-                  <div>
-                    <ResourceEventList events={this.state.resource_events} eventCounter={this.state.resource_event_counter}/>
+
+                  <div className="graph-panel">
+                    <canvas id="graph-space" />
+                    <GraphSpace resources={this.state.resources} processes={this.state.processes} />
                   </div>
-                  <div>
-                    <button onClick={this.prevEvent}>
-                      Previous
-                    </button>
-                  </div>
-                  <div>
-                    <button onClick={this.nextEvent}>
-                      {this.state.resource_event_counter === -1 ? "Start" : "Next"}
-                    </button>
-                  </div>
+
                   <div>
                     <h2>Processes</h2>
                     <ProcessList processes={processList} />

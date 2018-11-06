@@ -1,0 +1,22 @@
+/* ResourceEventFile { */
+/*     background-color: #f00; */
+/* } */
+
+.graph-panel {
+    float: left;
+}
+
+.instruction-nav-button {
+    float: left;
+    height: 40px;
+    width: 50%;
+}
+
+.instruction-panel {
+    backround-color: #aaa;
+    border: 2px solid #000;
+    float: left;
+    color: #222;
+    /* height: 300px; */
+    width: 260px;
+}

@@ -43,6 +43,7 @@ export class GraphSpace extends React.Component {
         ctx.font = "16px Consolas";
         ctx.fillStyle = "black";
         ctx.textAlign="center";
+        ctx.strokeStyle="black";
 
         // Draw the processes
         const processWidth = parseInt(canvas.width / numProcesses);
@@ -73,6 +74,40 @@ export class GraphSpace extends React.Component {
 
             ctx.fillText("r"+x, textCol, textRow);
         }
+
+        // Draw the resource requests and waiting relationships
+        const startProcessCol  = 0.5 * processWidth;
+        const startResourceCol = 0.5 * resourceWidth;
+
+        for(let x=0; x<numResources; x++) {
+
+            const owner = this.props.resources[x].owner;
+            const waiting = this.props.resources[x].waiting;
+
+            if(owner === null) {
+                continue;
+            }
+
+            // Draw owner relationship
+            ctx.beginPath();
+            ctx.strokeStyle="green";
+            ctx.moveTo(owner * processWidth + startProcessCol, this.process_row);
+            ctx.lineTo(x * resourceWidth + startResourceCol, this.resource_row + this.resource_height);
+            ctx.stroke(); // Draw it
+
+            // Draw any waiting processes
+            if(waiting.length > 0) {
+                // Print waiting lines
+                for(let i of waiting) {
+                    ctx.beginPath();
+                    ctx.strokeStyle="orange";
+                    ctx.moveTo(i * processWidth + startProcessCol, this.process_row);
+                    ctx.lineTo(x * resourceWidth + startResourceCol, this.resource_row + this.resource_height);
+                    ctx.stroke(); // Draw it
+                }
+            }
+        }
+
 
         return <div></div>;
     }

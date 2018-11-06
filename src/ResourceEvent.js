@@ -1,6 +1,12 @@
 import React from 'react';
-import './index.css';
-import './ResourceEvent.css';
+
+// Material theming
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+
+// My theming
+// import './index.css';
+// import './ResourceEvent.css';
 
 var _ = require('lodash');
 
@@ -13,21 +19,21 @@ export function ResourceEventList(props) {
 
     if(props.events.length === 0) {
         return (
-            <ul className="instruction-list">
-            </ul>
+            <List className="instruction-list">
+            </List>
         );
     }
 
     for(let event of props.events) {
         let currentEvent = (_.findIndex(props.events, event) === props.eventCounter);
 
-        resourceEventArray.push(<li className={"event-item " + (currentEvent ? "current-event" : "")}>{event.process_id} {event.operation} {event.resource_id}</li>);
+        resourceEventArray.push(<ListItem className={"event-item"} selected={currentEvent}>{event.process_id} {event.operation} {event.resource_id}</ListItem>);
     }
 
     return (
-            <ul className="instruction-list">
+            <List className="instruction-list">
               {resourceEventArray}
-            </ul>
+            </List>
     );
 }
 

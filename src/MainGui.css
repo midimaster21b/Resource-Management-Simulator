@@ -27,11 +27,11 @@
 /*     padding: 0; */
 /* } */
 
-/* .instruction-nav-button { */
-/*     float: left; */
-/*     height: 40px; */
-/*     width: 50%; */
-/* } */
+.instruction-nav-button {
+    float: left;
+    height: 40px;
+    width: 50%;
+}
 
 /* .instruction-panel { */
 /*     backround-color: #aaa; */

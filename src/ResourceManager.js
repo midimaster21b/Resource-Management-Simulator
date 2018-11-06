@@ -2,6 +2,17 @@ import React from 'react';
 
 // Material theming
 import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+
+// Material table theming
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+
+// Material button theming
+import Button from '@material-ui/core/Button';
 
 // My components
 import {Resource, ResourceList} from './Resource';
@@ -45,43 +56,54 @@ export class ResourceManager extends React.Component {
         return (
                 <Grid container spacing={12}>
                   <Grid item xs={3}>
-                    <div className="instruction-file-section">
-                      <ResourceEventFile fileChangeHandler={this.fileChangeHandler}/>
-                    </div>
-                    <div className="instruction-section">
-                      <ResourceEventList events={this.state.resource_events} eventCounter={this.state.resource_event_counter}/>
-                    </div>
-                    <div>
-                      <button className="instruction-nav-button" onClick={this.prevEvent}>
-                        Previous
-                      </button>
-                    </div>
-                    <div>
-                      <button className="instruction-nav-button" onClick={this.nextEvent}>
-                        {this.state.resource_event_counter === -1 ? "Start" : "Next"}
-                      </button>
-                    </div>
+                    <Paper>
+                      <div className="instruction-file-section">
+                        <ResourceEventFile fileChangeHandler={this.fileChangeHandler}/>
+                      </div>
+                      <div className="instruction-section">
+                        <ResourceEventList events={this.state.resource_events} eventCounter={this.state.resource_event_counter}/>
+                      </div>
+
+                      <Grid container xs={12}>
+                        <Grid xs={6}>
+                          <Button variant="outlined" className="instruction-nav-button" onClick={this.prevEvent}>
+                            Previous
+                          </Button>
+                        </Grid>
+
+                        <Grid xs={6}>
+                          <Button variant="outlined" className="instruction-nav-button" onClick={this.nextEvent}>
+                            {this.state.resource_event_counter === -1 ? "Start" : "Next"}
+                          </Button>
+                        </Grid>
+                      </Grid>
+                    </Paper>
                   </Grid>
 
-
                   <Grid item xs={9}>
-                    <canvas id="graph-space" />
-                    <GraphSpace resources={this.state.resources} processes={this.state.processes} />
+                    <Paper>
+                      <canvas id="graph-space" />
+                      <GraphSpace resources={this.state.resources} processes={this.state.processes} />
+                    </Paper>
                   </Grid>
 
                   <Grid item xs={3}>
-                    <div>
-                      <h2>Processes</h2>
-                      <ProcessList processes={processList} />
-                    </div>
-                    <div>
-                      <h2>Resources</h2>
-                      <ResourceList resources={resourceList} />
-                    </div>
+                    <Paper>
+                      <div>
+                        <h2>Processes</h2>
+                        <ProcessList processes={processList} />
+                      </div>
+                      <div>
+                        <h2>Resources</h2>
+                        <ResourceList resources={resourceList} />
+                      </div>
+                    </Paper>
                   </Grid>
 
                   <Grid item xs={9}>
-                    <ResourceManagementTable resources={resourceList} processes={processList} processOnClick={this.handleRequestClick}/>
+                    <Paper>
+                      <ResourceManagementTable resources={resourceList} processes={processList} processOnClick={this.handleRequestClick}/>
+                    </Paper>
                   </Grid>
                 </Grid>
         );
@@ -463,7 +485,7 @@ export function ResourceManagementTable(props) {
 
     // Blank cell for first space in table
     const tableHeaderRow = resources.map((resource) =>
-                                         <th key={resource.props.id}><Resource id={resource.props.id} name={resource.props.name} /></th>
+                                         <TableCell key={resource.props.id}><Resource id={resource.props.id} name={resource.props.name} /></TableCell>
                                         );
 
     // Fill in the table data for the processes
@@ -471,22 +493,24 @@ export function ResourceManagementTable(props) {
                                     {
                                         let rowData = [];
 
-                                        rowData.push(<td><Process id={process.props.id} name={process.props.name} /></td>);
+                                        rowData.push(<TableCell><Process id={process.props.id} name={process.props.name} /></TableCell>);
 
                                         for(let resource of resources) {
                                             rowData.push(<ProcessCell process={process} resource={resource} onClick={processOnClick} />);
                                         }
 
-                                        return <tr key={process.props.id}>{rowData}</tr>;
+                                        return <TableRow key={process.props.id}>{rowData}</TableRow>;
                                     });
 
     return (
-            <table className="resource-manager-table">
-              <tbody>
-                <tr><th></th>{tableHeaderRow}</tr>
+            <Table>
+              <TableHead>
+                <TableRow><TableCell></TableCell>{tableHeaderRow}</TableRow>
+              </TableHead>
+              <TableBody>
                 {tableBody}
-              </tbody>
-            </table>
+              </TableBody>
+            </Table>
     );
 }
 

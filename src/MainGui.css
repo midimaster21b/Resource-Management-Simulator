@@ -27,6 +27,10 @@
 /*     padding: 0; */
 /* } */
 
+h2 {
+    margin: 0;
+}
+
 .instruction-nav-button {
     float: left;
     height: 40px;

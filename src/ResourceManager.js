@@ -55,7 +55,7 @@ export class ResourceManager extends React.Component {
 
         return (
                 <Grid container spacing={12}>
-                  <Grid item xs={3}>
+                  <Grid item xs={3} xm={3} xl={3}>
                     <Paper>
                       <div className="instruction-file-section">
                         <ResourceEventFile fileChangeHandler={this.fileChangeHandler}/>
@@ -64,7 +64,7 @@ export class ResourceManager extends React.Component {
                         <ResourceEventList events={this.state.resource_events} eventCounter={this.state.resource_event_counter}/>
                       </div>
 
-                      <Grid container xs={12}>
+                      <Grid container xs={12} spacing={12}>
                         <Grid xs={6}>
                           <Button variant="outlined" className="instruction-nav-button" onClick={this.prevEvent}>
                             Previous
@@ -80,7 +80,7 @@ export class ResourceManager extends React.Component {
                     </Paper>
                   </Grid>
 
-                  <Grid item xs={9}>
+                  <Grid item xs={9} xm={9} xl={9}>
                     <Paper>
                       <canvas id="graph-space" />
                       <GraphSpace resources={this.state.resources} processes={this.state.processes} />

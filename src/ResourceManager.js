@@ -6,6 +6,7 @@ import Paper from '@material-ui/core/Paper';
 
 // Material button theming
 import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
 
 // My components
 import {Resource, ResourceList} from './Resource';
@@ -52,29 +53,33 @@ export class ResourceManager extends React.Component {
         }
 
         return (
-                <Grid container spacing={12}>
+                <Grid className="main-panel" container spacing={12}>
                   <Grid item xs={3} xm={3} xl={3}>
                     <Paper>
-                      <div className="instruction-file-section">
-                        <ResourceEventFile fileChangeHandler={this.fileChangeHandler}/>
-                      </div>
-                      <div className="instruction-section">
-                        <ResourceEventList events={this.state.resource_events} eventCounter={this.state.resource_event_counter}/>
-                      </div>
+                      <div className="instruction-panel">
+                        <div className="instruction-file-section">
+                          <ResourceEventFile fileChangeHandler={this.fileChangeHandler}/>
+                        </div>
+                        <Divider />
+                        <div className="instruction-section">
+                          <ResourceEventList events={this.state.resource_events} eventCounter={this.state.resource_event_counter}/>
+                        </div>
 
-                      <Grid container xs={12} spacing={12}>
-                        <Grid xs={6}>
-                          <Button variant="outlined" className="instruction-nav-button" onClick={this.prevEvent}>
-                            Previous
-                          </Button>
-                        </Grid>
+                        <Divider />
+                        <Grid container xs={12} spacing={12}>
+                          <Grid xs={6}>
+                            <Button variant="outlined" className="instruction-nav-button" onClick={this.prevEvent}>
+                              Previous
+                            </Button>
+                          </Grid>
 
-                        <Grid xs={6}>
-                          <Button variant="outlined" className="instruction-nav-button" onClick={this.nextEvent}>
-                            {this.state.resource_event_counter === -1 ? "Start" : "Next"}
-                          </Button>
+                          <Grid xs={6}>
+                            <Button variant="outlined" className="instruction-nav-button" onClick={this.nextEvent}>
+                              {this.state.resource_event_counter === -1 ? "Start" : "Next"}
+                            </Button>
+                          </Grid>
                         </Grid>
-                      </Grid>
+                      </div>
                     </Paper>
                   </Grid>
 

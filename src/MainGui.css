@@ -16,10 +16,9 @@
 /* } */
 
 /* /\* Instruction panel *\/ */
-/* .instruction-file-section { */
-/*     float: left; */
-/*     width: 100%; */
-/* } */
+.instruction-file-section {
+    width: 100%;
+}
 
 /* .instruction-list { */
 /*     list-style-type: none; */
@@ -42,27 +41,30 @@ canvas {
     border: 0;
     height: 100%;
     margin: 0;
+    /* max-height: 405px; */
+    /* max-width: 405px; */
     padding: 0;
     width: 100%;
 }
 
 .instruction-nav-button {
-    float: left;
-    height: 40px;
-    width: 50%;
+    height: 5%;
+    width: 100%;
 }
 
-/* .instruction-panel { */
-/*     backround-color: #aaa; */
-/*     border: 2px solid #000; */
-/*     float: left; */
-/*     color: #222; */
-/*     height: 500px; */
-/*     width: 260px; */
-/* } */
+.instruction-panel {
+    /* backround-color: #aaa; */
+    /* border: 2px solid #000; */
+    /* float: left; */
+    /* color: #222; */
+    /* height: 500px; */
+    /* width: 260px; */
+}
 
-/* .instruction-section { */
-/*     float: left; */
-/*     /\* height: 500px; *\/ */
-/*     width: 100%; */
-/* } */
+.instruction-section {
+    float: left;
+    height: 400px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    width: 100%;
+}

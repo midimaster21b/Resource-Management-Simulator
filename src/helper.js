@@ -13,7 +13,7 @@ export function getRelationshipText(res, proc) {
     }
 
     else {
-        return "";
+        return "Request";
     }
 }
 

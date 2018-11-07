@@ -49,3 +49,9 @@ canvas {
     overflow-y: scroll;
     width: 100%;
 }
+
+/* Resource Table */
+.resource-acquire-button {
+    height: 100%;
+    width: 100%;
+}

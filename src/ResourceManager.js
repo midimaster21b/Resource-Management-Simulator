@@ -69,13 +69,21 @@ export class ResourceManager extends React.Component {
                           <Divider />
                           <Grid container xs={12} spacing={12}>
                             <Grid xs={6}>
-                              <Button variant="outlined" className="instruction-nav-button" onClick={this.prevEvent}>
+                              <Button
+                               variant="outlined"
+                               className="instruction-nav-button"
+                               disabled={this.state.resource_event_counter === -1 ? true : false}
+                               onClick={this.prevEvent}>
                                 Previous
                               </Button>
                             </Grid>
 
                             <Grid xs={6}>
-                              <Button variant="outlined" className="instruction-nav-button" onClick={this.nextEvent}>
+                              <Button
+                               variant="outlined"
+                               className="instruction-nav-button"
+                               disabled={this.state.resource_event_counter === this.state.resource_events.length - 1 ? true : false}
+                               onClick={this.nextEvent}>
                                 {this.state.resource_event_counter === -1 ? "Start" : "Next"}
                               </Button>
                             </Grid>

@@ -31,6 +31,21 @@ h2 {
     margin: 0;
 }
 
+canvas {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+#graph-space {
+    background-color: #d3d3d3;
+    border: 0;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
 .instruction-nav-button {
     float: left;
     height: 40px;

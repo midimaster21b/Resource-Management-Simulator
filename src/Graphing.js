@@ -33,6 +33,14 @@ export class GraphSpace extends React.Component {
             return <div></div>;
         }
 
+        // Set the height of the canvas
+        // NOTE: THESE TWO LINES ARE IMPORTANT!!!
+        // Without these two lines, double drawing (or failure to clear?)
+        // of lines occasionally occurs which does not get redrawn for the
+        // remainder of the lifetime of the application...
+        canvas.width = 800;
+        canvas.height = 405;
+
         // Clear the screen
         this.clear();
 

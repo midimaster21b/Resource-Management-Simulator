@@ -397,6 +397,9 @@ export class ResourceManager extends React.Component {
             // Return true indicating successful acquisition
             return true;
         }
+        else if(owner === process_id) {
+            console.log("Process " + process_id + " requesting resource it already owns! (" + resource_id + ")");
+        }
         else {
             // If the waiting list doesn't contain the process id
             if(!waiting.includes(process_id)) {

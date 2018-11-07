@@ -1,6 +1,6 @@
 import React from 'react';
 import './index.css';
-import {getRelationshipText} from './ResourceManager';
+import {getRelationshipText} from './helper.js';
 
 export function Process(props) {
     return <div>Process {props.name}</div>;

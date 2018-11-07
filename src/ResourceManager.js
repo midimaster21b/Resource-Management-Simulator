@@ -13,6 +13,10 @@ import {ResourceEvent, ResourceEventList} from './ResourceEvent';
 import {Process, ProcessCell, ProcessList} from './ProcessResource';
 import {GraphSpace} from './Graphing.js';
 import {ResourceManagementTable} from './ResourceManagementTable.js';
+import {ResourceEventFile} from './ResourceEventFile.js';
+
+// My helper functions
+import {getRelationshipText, textToJsxList} from './helper.js';
 
 // My theming
 import './MainGui.css';
@@ -471,55 +475,5 @@ export class ResourceManager extends React.Component {
         }
     }
 }
-
-export class ResourceEventFile extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.handleSubmit = props.fileChangeHandler.bind(this);
-        this.fileInput = React.createRef();
-    }
-
-    render() {
-        return (
-                <form onChange={this.handleSubmit}>
-                  <input type="file" ref={this.fileInput} />
-                </form>
-        );
-    }
-}
-
-export function getRelationshipText(res, proc) {
-    const owner = res.props.owner;
-    const waiting = res.props.waiting;
-
-    if(proc.props.id === owner) {
-        return "Owner";
-    }
-
-    else if(waiting.includes(proc.props.id)) {
-        return "Waiting";
-    }
-
-    else {
-        return "";
-    }
-}
-
-export function textToJsxList(text) {
-        const textArray = text.split("\n");
-
-        let jsxArray = [];
-
-        for(let line of textArray) {
-            jsxArray.push(<li>{line}</li>);
-        }
-
-        return (
-                <ul>
-                  {jsxArray}
-                </ul>
-        );
-    }
 
 export default ResourceManager;

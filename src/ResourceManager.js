@@ -53,60 +53,64 @@ export class ResourceManager extends React.Component {
         }
 
         return (
-                <Grid className="main-panel" container spacing={12}>
-                  <Grid item xs={3} xm={3} xl={3}>
-                    <Paper>
-                      <div className="instruction-panel">
-                        <div className="instruction-file-section">
-                          <ResourceEventFile fileChangeHandler={this.fileChangeHandler}/>
-                        </div>
-                        <Divider />
-                        <div className="instruction-section">
-                          <ResourceEventList events={this.state.resource_events} eventCounter={this.state.resource_event_counter}/>
-                        </div>
+                <Grid className="full-display" container direction="column" spacing={12}>
+                  <Grid className="main-panel" container spacing={12}>
+                    <Grid item xs={3} xm={3} xl={3}>
+                      <Paper>
+                        <div className="instruction-panel">
+                          <div className="instruction-file-section">
+                            <ResourceEventFile fileChangeHandler={this.fileChangeHandler}/>
+                          </div>
+                          <Divider />
+                          <div className="instruction-section">
+                            <ResourceEventList events={this.state.resource_events} eventCounter={this.state.resource_event_counter}/>
+                          </div>
 
-                        <Divider />
-                        <Grid container xs={12} spacing={12}>
-                          <Grid xs={6}>
-                            <Button variant="outlined" className="instruction-nav-button" onClick={this.prevEvent}>
-                              Previous
-                            </Button>
+                          <Divider />
+                          <Grid container xs={12} spacing={12}>
+                            <Grid xs={6}>
+                              <Button variant="outlined" className="instruction-nav-button" onClick={this.prevEvent}>
+                                Previous
+                              </Button>
+                            </Grid>
+
+                            <Grid xs={6}>
+                              <Button variant="outlined" className="instruction-nav-button" onClick={this.nextEvent}>
+                                {this.state.resource_event_counter === -1 ? "Start" : "Next"}
+                              </Button>
+                            </Grid>
                           </Grid>
+                        </div>
+                      </Paper>
+                    </Grid>
 
-                          <Grid xs={6}>
-                            <Button variant="outlined" className="instruction-nav-button" onClick={this.nextEvent}>
-                              {this.state.resource_event_counter === -1 ? "Start" : "Next"}
-                            </Button>
-                          </Grid>
-                        </Grid>
-                      </div>
-                    </Paper>
+                    <Grid item xs={9} xm={9} xl={9}>
+                      <Paper>
+                        <canvas id="graph-space" />
+                        <GraphSpace resources={this.state.resources} processes={this.state.processes} />
+                      </Paper>
+                    </Grid>
                   </Grid>
 
-                  <Grid item xs={9} xm={9} xl={9}>
-                    <Paper>
-                      <canvas id="graph-space" />
-                      <GraphSpace resources={this.state.resources} processes={this.state.processes} />
-                    </Paper>
-                  </Grid>
+                  <Grid className="debug-panel" container spacing={12}>
+                    <Grid item xs={3}>
+                      <Paper>
+                        <div>
+                          <h2>Processes</h2>
+                          <ProcessList processes={processList} />
+                        </div>
+                        <div>
+                          <h2>Resources</h2>
+                          <ResourceList resources={resourceList} />
+                        </div>
+                      </Paper>
+                    </Grid>
 
-                  <Grid item xs={3}>
-                    <Paper>
-                      <div>
-                        <h2>Processes</h2>
-                        <ProcessList processes={processList} />
-                      </div>
-                      <div>
-                        <h2>Resources</h2>
-                        <ResourceList resources={resourceList} />
-                      </div>
-                    </Paper>
-                  </Grid>
-
-                  <Grid item xs={9}>
-                    <Paper>
-                      <ResourceManagementTable resources={resourceList} processes={processList} processOnClick={this.handleRequestClick}/>
-                    </Paper>
+                    <Grid item xs={9}>
+                      <Paper>
+                        <ResourceManagementTable resources={resourceList} processes={processList} processOnClick={this.handleRequestClick}/>
+                      </Paper>
+                    </Grid>
                   </Grid>
                 </Grid>
         );

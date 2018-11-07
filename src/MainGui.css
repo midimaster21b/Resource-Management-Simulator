@@ -1,35 +1,15 @@
-/* /\* Full panel *\/ */
-/* .main-panel { */
-/*     border: 1px solid #000; */
-/*     margin: 0px auto; */
-/*     padding: 0; */
-/*     width: 1000px; */
-/* } */
-
-/* /\* Graph panel *\/ */
-/* .graph-panel { */
-/*     float: left; */
-/*     height: 500px; */
-/*     margin: 0; */
-/*     padding: 0; */
-/*     width: 700px; */
-/* } */
-
-/* /\* Instruction panel *\/ */
-.instruction-file-section {
-    width: 100%;
-}
-
-/* .instruction-list { */
-/*     list-style-type: none; */
-/*     margin: 0; */
-/*     padding: 0; */
-/* } */
-
 h2 {
     margin: 0;
 }
 
+/* Full panel */
+.main-panel {
+    margin: 0px auto;
+    padding: 0;
+    width: 1000px;
+}
+
+/* Graph panel */
 canvas {
     border: 0;
     margin: 0;
@@ -41,29 +21,30 @@ canvas {
     border: 0;
     height: 100%;
     margin: 0;
-    /* max-height: 405px; */
-    /* max-width: 405px; */
     padding: 0;
     width: 100%;
 }
 
-.instruction-nav-button {
-    height: 5%;
+/* Instruction panel */
+.instruction-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    height: 100%;
+}
+
+.instruction-file-section {
     width: 100%;
 }
 
-.instruction-panel {
-    /* backround-color: #aaa; */
-    /* border: 2px solid #000; */
-    /* float: left; */
-    /* color: #222; */
-    /* height: 500px; */
-    /* width: 260px; */
+.instruction-nav-button {
+    /* height: 5%; */
+    width: 100%;
 }
 
 .instruction-section {
-    float: left;
-    height: 400px;
+    height: 450px;
+
     overflow-x: hidden;
     overflow-y: scroll;
     width: 100%;

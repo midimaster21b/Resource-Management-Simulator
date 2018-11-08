@@ -4,10 +4,7 @@ import React from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 
-// My theming
-// import './index.css';
-// import './ResourceEvent.css';
-
+// Include lodash library
 var _ = require('lodash');
 
 export function ResourceEvent(props) {

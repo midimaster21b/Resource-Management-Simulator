@@ -39,7 +39,7 @@ export function ProcessList(props) {
     const processes = props.processes;
 
     const processListItems = processes.map((process) =>
-                                           <li key={process.props.id}>{process}</li>
+                                           <li key={process.props.id}>{process} - {process.props.blocked ? "Blocked" : "Running"}</li>
                                           );
     return (
             <ul>{processListItems}</ul>

@@ -50,7 +50,7 @@ export class ResourceManager extends React.Component {
 
         // Create process JSX
         for(let process of this.state.processes) {
-            processList.push(<Process id={process.id} name={process.name} owner={process.owner} waiting={process.waiting} clickHandler={this.requestResource} />);
+            processList.push(<Process id={process.id} name={process.name} blocked={this.getProcessState(process.id)} owner={process.owner} waiting={process.waiting} clickHandler={this.requestResource} />);
         }
 
         return (
@@ -648,6 +648,19 @@ export class ResourceManager extends React.Component {
             return false;
         }
     }
+
+    getProcessState = (process_id) => {
+        const resources = this.state.resources;
+
+        for(let resource of resources) {
+            if(resource.waiting.includes(process_id)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }
 
 export default ResourceManager;

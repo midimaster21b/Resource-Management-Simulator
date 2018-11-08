@@ -108,6 +108,9 @@ export class ResourceManager extends React.Component {
                     <Grid item xs={3}>
                       <Paper>
                         <div>
+                          <h2>{this.checkForDeadlock() ? "Deadlock found." : "No deadlock."}</h2>
+                        </div>
+                        <div>
                           <h2>Processes</h2>
                           <ProcessList processes={processList} />
                         </div>
@@ -418,6 +421,76 @@ export class ResourceManager extends React.Component {
         this.setState(state => ({
             processes: processes,
         }));
+    }
+
+    /*
+     * Determine if deadlock is present in current system.
+     */
+    checkForDeadlock = () => {
+        const resources = this.state.resources;
+
+        let owners = {};
+        let waiting = {};
+
+        let cycle_detected = false;
+
+        // Iterate through available resources
+        for(let resource of resources) {
+            // If the resource doesn't have an owner continue
+            if(resource.owner === null) {
+                continue;
+            }
+
+            // Run cycle detection algorithm
+            if(this.cycleDetector(resource.id, [], "p" + resource.owner)) {
+                return true;
+            }
+        }
+
+        return cycle_detected;
+    }
+
+    cycleDetector = (resource_id, observed_list, end_node) => {
+        console.log("Cycle Detecting: " + resource_id);
+        console.log("Cycle array: " + observed_list);
+
+        if(observed_list > 10) {
+            return false;
+        }
+
+        // if(observed_list.includes("r" + resource_id)) {
+        if(observed_list.includes(end_node)) {
+            return true;
+        }
+
+        const resources = this.state.resources;
+        const resource  = resources[resource_id];
+
+        let cycle_detected = false;
+
+        // Iterate through the waiting processes
+        for(let process_id of resource.waiting) {
+
+            // Find the resources which the current process posesses
+            for(let resource_i of resources) {
+                if(resource_i.owner === process_id) {
+                    let observed = observed_list;
+                    observed.push("p" + process_id);
+                    observed.push("r" + resource_i.id);
+
+                    if(observed > 10) {
+                        return true;
+                    }
+
+                    console.log("Calling Cycle Detector");
+                    if(this.cycleDetector(resource_i.id, observed, end_node)) {
+                        return true;
+                    };
+                }
+            }
+        }
+
+        return cycle_detected;
     }
 
     /*

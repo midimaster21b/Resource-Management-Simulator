@@ -27,6 +27,12 @@ import './MainGui.css';
 // import {cloneDeep} from 'lodash';
 var _ = require('lodash');
 
+function DisplayDeadlock(props) {
+    return (
+            <p>{props.deadlocked.join(",")}</p>
+    );
+}
+
 export class ResourceManager extends React.Component {
     constructor(props) {
         super(props);
@@ -37,6 +43,8 @@ export class ResourceManager extends React.Component {
             resource_history: [],
             resource_event_counter: -1,
         };
+
+        this.deadlock = [];
     }
 
     render() {
@@ -108,7 +116,8 @@ export class ResourceManager extends React.Component {
                     <Grid item xs={3}>
                       <Paper>
                         <div>
-                          <h2>{this.checkForDeadlock() ? "Deadlock found." : "No deadlock."}</h2>
+                          <h2>{this.checkForDeadlock() ? "Deadlock found:" : "No deadlock."}</h2>
+                          <DisplayDeadlock deadlocked={this.deadlock} />
                         </div>
                         <div>
                           <h2>Processes</h2>
@@ -454,12 +463,12 @@ export class ResourceManager extends React.Component {
         console.log("Cycle Detecting: " + resource_id);
         console.log("Cycle array: " + observed_list);
 
-        if(observed_list > 10) {
-            return false;
-        }
-
-        // if(observed_list.includes("r" + resource_id)) {
         if(observed_list.includes(end_node)) {
+            console.log("Deadlock detected: " + observed_list);
+
+            // Update deadlock value
+            this.deadlock = observed_list;
+
             return true;
         }
 
@@ -477,10 +486,6 @@ export class ResourceManager extends React.Component {
                     let observed = observed_list;
                     observed.push("p" + process_id);
                     observed.push("r" + resource_i.id);
-
-                    if(observed > 10) {
-                        return true;
-                    }
 
                     console.log("Calling Cycle Detector");
                     if(this.cycleDetector(resource_i.id, observed, end_node)) {

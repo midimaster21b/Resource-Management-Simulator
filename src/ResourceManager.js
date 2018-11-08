@@ -64,7 +64,10 @@ export class ResourceManager extends React.Component {
                           </div>
                           <Divider />
                           <div className="instruction-section">
-                            <ResourceEventList events={this.state.resource_events} eventCounter={this.state.resource_event_counter}/>
+                            <ResourceEventList
+                             events={this.state.resource_events}
+                             clickHandler={this.goToEventNumber}
+                             eventCounter={this.state.resource_event_counter}/>
                           </div>
 
                           <Divider />

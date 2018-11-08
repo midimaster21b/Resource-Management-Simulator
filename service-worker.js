@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/Resource-Management-Simulator/precache-manifest.ff4c6deb230425c8295ae4428b84012a.js"
+  "/Resource-Management-Simulator/precache-manifest.f8256ca1e8579c9f7a6b112096b595bb.js"
 );
 
 workbox.clientsClaim();

@@ -8,13 +8,27 @@ export class GraphSpace extends React.Component {
             count: 1,
         };
 
+        // Canvas dimensions
+        this.canvas_height = 405;
+        this.canvas_width = 800;
+
+        // Title dimensions
+        this.title = "Resource Management Graph";
+        this.title_row = 40;
+        this.title_col = this.canvas_width / 2;
+
+        // All text
+        this.text_padding_top = 8;
+
+        // Process dimensions
         this.process_height  = 30; // px
         this.process_width   = 50; // px
-        this.process_row     = 100; // px
+        this.process_row     = 300; // px
 
+        // Resource dimensions
         this.resource_height = 30; // px
         this.resource_width  = 50; // px
-        this.resource_row    = 20; // px
+        this.resource_row    = 100; // px
     }
 
     render() {
@@ -38,8 +52,8 @@ export class GraphSpace extends React.Component {
         // Without these two lines, double drawing (or failure to clear?)
         // of lines occasionally occurs which does not get redrawn for the
         // remainder of the lifetime of the application...
-        canvas.width = 800;
-        canvas.height = 405;
+        canvas.width = this.canvas_width;
+        canvas.height = this.canvas_height;
 
         // Clear the screen
         this.clear();
@@ -48,10 +62,16 @@ export class GraphSpace extends React.Component {
         const numProcesses = this.props.processes.length;
         const numResources = this.props.resources.length;
 
-        ctx.font = "16px Consolas";
+        // Print Title
+        ctx.font = "30px Consolas";
         ctx.fillStyle = "black";
         ctx.textAlign="center";
         ctx.strokeStyle="black";
+
+        ctx.fillText(this.title, this.title_col, this.title_row);
+
+
+        ctx.font = "16px Consolas";
 
         // Draw the processes
         const processWidth = parseInt(canvas.width / numProcesses);
@@ -59,7 +79,7 @@ export class GraphSpace extends React.Component {
         for(let x=0; x<numProcesses; x++) {
             const startCol = x * processWidth + (0.5 * (processWidth - this.process_width));
             const textCol  = x * processWidth + (0.5 * processWidth);
-            const textRow  = this.process_row + (0.5 * this.process_height);
+            const textRow  = this.process_row + (0.5 * this.process_height) + this.text_padding_top;
 
             // Draw process rectangle
             ctx.rect(startCol, this.process_row, this.process_width, this.process_height);
@@ -74,7 +94,7 @@ export class GraphSpace extends React.Component {
         for(let x=0; x<numResources; x++) {
             const startCol = x * resourceWidth + (0.5 * (resourceWidth - this.resource_width));
             const textCol  = x * resourceWidth + (0.5 * resourceWidth);
-            const textRow  = this.resource_row + (0.5 * this.resource_height);
+            const textRow  = this.resource_row + (0.5 * this.resource_height) + this.text_padding_top;
 
             // Draw resource rectangle
             ctx.rect(startCol, this.resource_row, this.resource_width, this.resource_height);

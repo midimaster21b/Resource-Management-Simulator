@@ -12,13 +12,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-
-.resource-manager-table {
-    border: 1px solid black;
-}
-
-#graph-space {
-    width: 600px;
-    height: 400px;
-    border: 1px solid lightgray;
-}

@@ -34,6 +34,7 @@ export class ResourceManager extends React.Component {
             processes: [],
             resources: [],
             resource_events: [],
+            resource_history: [],
             resource_event_counter: -1,
         };
     }
@@ -136,6 +137,17 @@ export class ResourceManager extends React.Component {
             return false;
         }
 
+        // If this resource event has already been processed, reload from history
+        if(this.state.resource_history.length > count + 1) {
+            this.goToEventNumber(count + 1);
+
+            // Increment the count
+            this.setState(state => ({
+                "resource_event_counter": count + 1,
+            }));
+            return;
+        }
+
         const resourceEvent = this.state.resource_events[count+1];
 
         if(resourceEvent.operation === "requests") {
@@ -149,6 +161,11 @@ export class ResourceManager extends React.Component {
             return false;
         }
 
+        // Save current state
+        if(this.state.resource_history.length >= count) {
+            this.saveResourceManagerState();
+        }
+
         // Store new count
         this.setState(state => ({
             "resource_event_counter": count + 1,
@@ -160,13 +177,74 @@ export class ResourceManager extends React.Component {
         const count = this.state.resource_event_counter;
 
         // Bound the value of count to greater than or equal to zero
-        if(count - 1 < 0) {
+        if(count < 0) {
             return;
         }
 
-        // Store new count
+        // If going to blank state, clear resources
+        if(count === 0) {
+            // TODO: THIS COULD/SHOULD BE IMPLEMENTED BETTER
+            const resources = _.cloneDeep(this.state.resources)
+            let resourceUpdate = [];
+
+            for(let resource of resources) {
+                resource.owner = null;
+                resource.waiting = [];
+
+                resourceUpdate.push(resource);
+            }
+
+            // Decrement count
+            this.setState(state => ({
+                "resources": resourceUpdate,
+            }));
+        }
+
+        // Normal operation
+        else {
+            this.goToEventNumber(count - 1);
+        }
+
+        // Decrement count
         this.setState(state => ({
             "resource_event_counter": count - 1,
+        }));
+    }
+
+    goToEventNumber = (event_number) => {
+        // Prompt developer of reload
+        console.log("Reloading from event number " + event_number);
+
+        // Load state and update event counter
+        this.setState(state => ({
+            "processes": this.state.resource_history[event_number].processes,
+            "resources": this.state.resource_history[event_number].resources,
+            "resource_event_counter": event_number,
+        }));
+    }
+
+    saveResourceManagerState = () => {
+        const count = this.state.resource_event_counter;
+        console.log("Saving state for event number " + count);
+
+        let event_history = _.cloneDeep(this.state.resource_history);
+
+        const processes = _.cloneDeep(this.state.processes);
+        const resources = _.cloneDeep(this.state.resources);
+
+        const event = {
+            "processes": processes,
+            "resources": resources,
+        }
+
+        // TODO: THIS SHOULD BE INSERTED AT APPROPRIATE PLACE ENSURE
+        // CHANGED HISTORY GETS SAVED
+        // event_history.push(event);
+        event_history[count] = _.cloneDeep(event);
+
+        // Save event history
+        this.setState(state => ({
+            "resource_history": event_history,
         }));
     }
 

@@ -25,9 +25,10 @@ export function ResourceEventList(props) {
     }
 
     for(let event of props.events) {
-        let currentEvent = (_.findIndex(props.events, event) === props.eventCounter);
+        const eventIndex = _.findIndex(props.events, event);
+        let currentEvent = (eventIndex === props.eventCounter);
 
-        resourceEventArray.push(<ListItem className={"event-item"} selected={currentEvent}>{event.process_id} {event.operation} {event.resource_id}</ListItem>);
+        resourceEventArray.push(<ListItem className={"event-item"} selected={currentEvent}>{eventIndex}) {event.process_id} {event.operation} {event.resource_id}</ListItem>);
     }
 
     return (

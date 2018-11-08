@@ -70,7 +70,6 @@ export class GraphSpace extends React.Component {
 
         ctx.fillText(this.title, this.title_col, this.title_row);
 
-
         ctx.font = "16px Consolas";
 
         // Draw the processes
@@ -128,7 +127,7 @@ export class GraphSpace extends React.Component {
                 // Print waiting lines
                 for(let i of waiting) {
                     ctx.beginPath();
-                    ctx.strokeStyle="orange";
+                    ctx.strokeStyle="red";
                     ctx.moveTo(i * processWidth + startProcessCol, this.process_row);
                     ctx.lineTo(x * resourceWidth + startResourceCol, this.resource_row + this.resource_height);
                     ctx.stroke(); // Draw it

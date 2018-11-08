@@ -13,10 +13,23 @@ export function Process(props) {
 }
 
 export function ProcessCell(props) {
+
+    const relationship = getRelationshipText(props.resource, props.process);
+
+    let color = "default";
+
+    if(relationship.toLowerCase() === "owner") {
+        color = "primary";
+    }
+
+    else if(relationship.toLowerCase() === "waiting") {
+        color = "secondary";
+    }
+
     return (
         <td>
-            <Button variant="outlined" className="resource-acquire-button" onClick={(e) => props.onClick(props.process.props.id, props.resource.props.id, e)}>
-              {getRelationshipText(props.resource, props.process)}
+            <Button variant="outlined" color={color} className="resource-acquire-button" onClick={(e) => props.onClick(props.process.props.id, props.resource.props.id, e)}>
+              {relationship}
             </Button>
         </td>
     );

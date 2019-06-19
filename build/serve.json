@@ -1,0 +1,12 @@
+{
+    "rewrites": [
+        {
+            "source": "/projects/resource-management-simulator/:res",
+            "destination": "/:res"
+        },
+        {
+            "source": "/projects/resource-management-simulator/static/js/:res",
+            "destination": "/static/js/:res"
+        }
+    ]
+}

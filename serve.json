@@ -1,6 +1,10 @@
 {
     "rewrites": [
         {
+            "source": "/projects/resource-management-simulator",
+            "destination": "/index.html"
+        },
+        {
             "source": "/projects/resource-management-simulator/:res",
             "destination": "/:res"
         },

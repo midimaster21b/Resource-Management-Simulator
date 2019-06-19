@@ -36,7 +36,7 @@ This program was written to fulfill the requirements for the assignment as viewe
    npx serve
    ```
 
-   Serve the staticaly built application. The default serve port is 5000.
+   Serve the statically built application. The default serve port is 5000.
 
 ## Running The Program
 

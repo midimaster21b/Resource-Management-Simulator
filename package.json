@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "http://midimaster21b.github.io/Resource-Management-Simulator",
   "dependencies": {
+    "@material-ui/core": "^4.1.1",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
     "react-scripts": "2.1.1"
@@ -15,7 +16,7 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
- },
+  },
   "eslintConfig": {
     "extends": "react-app"
   },

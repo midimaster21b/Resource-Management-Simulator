@@ -1,5 +1,3 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 # Resource Management Simulator
 
 This program was written to fulfill the requirements for the assignment as viewed in [ASSIGNMENT.md](ASSIGNMENT.md).
@@ -38,11 +36,11 @@ This program was written to fulfill the requirements for the assignment as viewe
 
    Serve the statically built application. The default serve port is 5000.
 
-## Running The Program
+## Using The Program
 
 The program requires the user to supply a file following the format guidelines below. The user can then step through the supplied file's program using the instruction navigation buttons.
 
-## Instruction File Format
+### Instruction File Format
 
 1. The first two lines in the file tell the user how many processes and resources will be used for this run.
 

@@ -1,13 +1,13 @@
 {
-  "main.css": "/Resource-Management-Simulator/static/css/main.37b195fb.chunk.css",
-  "main.js": "/Resource-Management-Simulator/static/js/main.001b3067.chunk.js",
-  "main.js.map": "/Resource-Management-Simulator/static/js/main.001b3067.chunk.js.map",
-  "static/js/1.182d0b5a.chunk.js": "/Resource-Management-Simulator/static/js/1.182d0b5a.chunk.js",
-  "static/js/1.182d0b5a.chunk.js.map": "/Resource-Management-Simulator/static/js/1.182d0b5a.chunk.js.map",
+  "main.css": "/Resource-Management-Simulator/static/css/main.b5ec34fa.chunk.css",
+  "main.js": "/Resource-Management-Simulator/static/js/main.627b2dc7.chunk.js",
+  "main.js.map": "/Resource-Management-Simulator/static/js/main.627b2dc7.chunk.js.map",
+  "static/js/1.ebe4dc2c.chunk.js": "/Resource-Management-Simulator/static/js/1.ebe4dc2c.chunk.js",
+  "static/js/1.ebe4dc2c.chunk.js.map": "/Resource-Management-Simulator/static/js/1.ebe4dc2c.chunk.js.map",
   "runtime~main.js": "/Resource-Management-Simulator/static/js/runtime~main.6c4706ef.js",
   "runtime~main.js.map": "/Resource-Management-Simulator/static/js/runtime~main.6c4706ef.js.map",
-  "static/css/main.37b195fb.chunk.css.map": "/Resource-Management-Simulator/static/css/main.37b195fb.chunk.css.map",
+  "static/css/main.b5ec34fa.chunk.css.map": "/Resource-Management-Simulator/static/css/main.b5ec34fa.chunk.css.map",
   "index.html": "/Resource-Management-Simulator/index.html",
-  "precache-manifest.ad267c6135f8260d70eebf1df0e2e779.js": "/Resource-Management-Simulator/precache-manifest.ad267c6135f8260d70eebf1df0e2e779.js",
+  "precache-manifest.d91b00dd3351c7ef3c88bff86289a203.js": "/Resource-Management-Simulator/precache-manifest.d91b00dd3351c7ef3c88bff86289a203.js",
   "service-worker.js": "/Resource-Management-Simulator/service-worker.js"
 }

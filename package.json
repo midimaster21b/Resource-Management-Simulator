@@ -2,7 +2,6 @@
   "name": "cis-452-project-3",
   "version": "0.1.0",
   "private": true,
-
   "homepage": "http://midimaster21b.github.io/Resource-Management-Simulator",
   "dependencies": {
     "@material-ui/core": "^4.1.1",

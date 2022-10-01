@@ -10,14 +10,14 @@ import Divider from '@material-ui/core/Divider';
 
 // My components
 import {Resource, ResourceList} from './Resource';
-import {ResourceEvent, ResourceEventList} from './ResourceEvent';
-import {Process, ProcessCell, ProcessList} from './ProcessResource';
+import {ResourceEventList} from './ResourceEvent';
+import {Process, ProcessList} from './ProcessResource';
 import {GraphSpace} from './Graphing.js';
 import {ResourceManagementTable} from './ResourceManagementTable.js';
 import {ResourceEventFile} from './ResourceEventFile.js';
 
 // My helper functions
-import {getRelationshipText, textToJsxList} from './helper.js';
+// import {getRelationshipText, textToJsxList} from './helper.js';
 
 // My theming
 import './MainGui.css';
@@ -267,8 +267,8 @@ export class ResourceManager extends React.Component {
         // Prevent the default browser behavior
         event.preventDefault();
 
-        const files  = event.target.files;
-        const file   = files[0];
+        // const files  = event.target.files;
+        // const file   = files[0];
         let reader   = new FileReader();
 
         // After file has been read, execute this
@@ -372,8 +372,8 @@ export class ResourceManager extends React.Component {
             }
         }
 
-        // Begin reading file as a text file
-        const content = reader.readAsText(file);
+      // Begin reading file as a text file
+      // const content = reader.readAsText(file);
     }
 
     getNextProcessId = (processes) => {
@@ -438,8 +438,8 @@ export class ResourceManager extends React.Component {
     checkForDeadlock = () => {
         const resources = this.state.resources;
 
-        let owners = {};
-        let waiting = {};
+        // let owners = {};
+        // let waiting = {};
 
         let cycle_detected = false;
 
